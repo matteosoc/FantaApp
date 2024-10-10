@@ -1,0 +1,28 @@
+@host=http://localhost:5000/api/v1
+@jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmYxYzZkNGQwODNhZjI4NjBhOTE3ZWYiLCJpYXQiOjE3MjcxMjExMjcsImV4cCI6MTcyNzEyNDcyN30.k33epzHstAkZeXF08cxrrVjGCI5czqxpFxOOy1fB6mc
+
+###
+POST {{host}}/register
+Content-Type: application/json
+
+{
+    "name": "4",
+    "surname": "4",
+    "email": "prova@4",
+    "password": "4"
+}
+
+###
+POST {{host}}/login
+Content-Type: application/json
+
+{
+    "email": "prova@2",
+    "password": "2"
+}
+
+###
+GET {{host}}/me
+Authorization: Bearer {{jwt}}
+Content-Type: application/json
+

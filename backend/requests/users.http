@@ -1,0 +1,29 @@
+@host=http://localhost:5000/api/v1/users
+@id=66f1d166b12eb6fe7128405d
+
+###
+GET {{host}}
+
+###
+GET {{host}}/{{id}}
+
+###
+POST {{host}}
+Content-Type: application/json
+
+{
+    "name": "ma",
+    "email": "ma@",
+    "password":"ma"
+} 
+
+###
+PUT {{host}}/{{id}}
+Content-Type: application/json
+
+{
+    "name": "nu"
+}
+
+###
+DELETE {{host}}/{{id}}

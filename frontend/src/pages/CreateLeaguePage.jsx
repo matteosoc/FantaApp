@@ -16,7 +16,8 @@ const CreateLeaguePage = () => {
         name: '',
         password: '',
         numberOfParticipants: '',
-        players,
+        budget: '',
+        players, // si possono eliminare?
         bonusMalus
     });
 
@@ -24,39 +25,18 @@ const CreateLeaguePage = () => {
         setLeagueFormValue({ ...leagueFormValue, [e.target.name]: e.target.value });
     };
 
-    const handlePlayerChange = (index, field, value) => {
-        const updatedPlayers = [...players];
-        updatedPlayers[index][field] = value;
-        setPlayers(updatedPlayers);
-    };
-
-    const handleBonusMalusChange = (index, field, value) => {
-        const updatedBonusMalus = [...bonusMalus];
-        updatedBonusMalus[index][field] = value;
-        setBonusMalus(updatedBonusMalus);
-    };
-
-    const handleAddPlayer = () => {
-        setPlayers([...players, { name: '', value: 0 }]);
-    };
-
-    const handleAddBonusMalus = () => {
-        setBonusMalus([...bonusMalus, { name: '', value: 0 }]);
-    };
-
-
     const handleSubmit = async () => {
         console.log(token);
         console.log(leagueFormValue);
 
         try {
-        const newLeague = await createLeague(leagueFormValue, token);
-        
-        // Redirect or success message after creation
-        if (window.confirm('Lega creata, passa alla creazione dei players e bonusmalus')) {
-            console.log(newLeague._id);
-            navigate(`/create-players/${newLeague._id}`)
-        };
+            const newLeague = await createLeague(leagueFormValue, token);
+
+            // Redirect or success message after creation
+            if (window.confirm('Lega creata, passa alla creazione dei players e bonusmalus')) {
+                console.log(newLeague._id);
+                navigate(`/create-players/${newLeague._id}`)
+            };
 
         } catch (err) {
             console.log(err);
@@ -101,6 +81,19 @@ const CreateLeaguePage = () => {
                                 name="numberOfParticipants"
                                 placeholder="Inserisci il numero di partecipanti"
                                 value={leagueFormValue.numberOfParticipants}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        {/* Budget per creare la squadra */}
+                        <Form.Group controlId="budget">
+                            <Form.Label>Budget</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="budget"
+                                placeholder="Inserisci il budget per creare la squadra"
+                                value={leagueFormValue.budget}
                                 onChange={handleChange}
                                 required
                             />

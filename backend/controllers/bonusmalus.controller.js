@@ -5,7 +5,7 @@ import League from '../models/league.js';
 export const getBonusMalus = async (req, res) => {
     try {
         const id = req.params.id
-
+        
         const bonusmalus = await BonusMalus.findById(id);
 
         if (!bonusmalus) return res.status(404).json({ error: 'BonusMalus not found' });
@@ -56,3 +56,16 @@ export const deleteBonusMalus = async ( req, res) => {
     }
 }
 
+export const getAllBonusMalusOfLeague = async (req, res) => {
+    try {
+        const id = req.params.id
+        
+        const bonusmalus = await BonusMalus.find({ league: leagueId });
+
+        if (!bonusmalus) return res.status(404).json({ error: 'BonusMalus not found' });
+
+        res.json(bonusmalus);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

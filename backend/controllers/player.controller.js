@@ -34,21 +34,6 @@ export const postPlayer = async (req, res) => {
     }
 }
 
-// aggiorna giocatore
-export const updatePlayer = async (req, res) => {
-    try {
-        const id = req.params.id
-
-        const updatedPlayer = await Player.findByIdAndUpdate(id, req.body, { new: true });
-
-        if (!updatedPlayer) return res.status(404).json({ error: 'Player not found' });
-
-        res.json(updatedPlayer);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-}
-
 // elimina giocatore
 export const deletePlayer = async (req, res) => {
     try {
@@ -73,14 +58,19 @@ export const applyBonusToPlayer = async (req, res) => {
         const { bonusId } = req.body;
         const { playerId } = req.params;
 
+        console.log("bonusId" + bonusId);
+        console.log("playerId" + playerId)
+
         // Trova il giocatore
         const player = await Player.findById(playerId);
+
         if (!player) {
             return res.status(404).json({ message: "Giocatore non trovato." });
         }
 
         // Trova il bonus/malus
         const bonusMalus = await BonusMalus.findById(bonusId);
+        
         if (!bonusMalus) {
             return res.status(404).json({ message: "Bonus/Malus non trovato." });
         }
@@ -92,8 +82,24 @@ export const applyBonusToPlayer = async (req, res) => {
 
         res.status(200).json({ message: "bonus o malus applicato con successo", player });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Errore del server", error });
     }
 };
+
+// aggiorna giocatore
+export const updatePlayer = async (req, res) => {
+    try {
+        const id = req.params.id
+
+        const updatedPlayer = await Player.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (!updatedPlayer) return res.status(404).json({ error: 'Player not found' });
+
+        res.json(updatedPlayer);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
 

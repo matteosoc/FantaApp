@@ -6,6 +6,8 @@ import Player from '../models/player.js';
 // mostra una squadra da id
 export const getTeam = async (req, res) => {
     try {
+        console.log("getTeam")
+
         const id = req.params.id
 
         const team = await Team.findById(id).populate('players')
@@ -14,6 +16,7 @@ export const getTeam = async (req, res) => {
 
         res.json(team);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }
@@ -36,30 +39,26 @@ export const postTeam = async (req, res) => {
     }
 }
 
-
 // crea nuova squadra con controllo budget
 export const postTeamTwo = async (req, res) => {
-    const { leagueId, teamName, playerIds, avatar } = req.body;
+    const { leagueId, newTeam } = req.body;
     const userId = req.loggedUser._id;
 
     try {
         // Trova la lega e i giocatori associati
         const league = await League.findById(leagueId).populate('players');
+
         if (!league) {
             return res.status(404).json({ message: 'Lega non trovata.' });
         }
 
-        // Controllo che i giocatori selezionati appartengano alla lega
-        const validPlayers = playerIds.every(playerId =>
-            league.players.some(player => player._id.equals(playerId))
-        );
 
         if (!validPlayers) {
             return res.status(400).json({ message: 'Uno o più giocatori non appartengono a questa lega.' });
         }
 
         // Recupera i dati dei giocatori selezionati
-        const selectedPlayers = await Player.find({ _id: { $in: playerIds } });
+        const selectedPlayers = await Player.find({ _id: { $in: newTeam.players } });
 
         // Somma il valore dei giocatori selezionati
         const totalValue = selectedPlayers.reduce((sum, player) => sum + player.value, 0);
@@ -74,8 +73,7 @@ export const postTeamTwo = async (req, res) => {
         // Crea la squadra
         const newTeam = new Team({
             name: teamName,
-            players: playerIds,
-            avatar: avatar,
+            players: playerIds,            // avatar: avatar,
             owner: userId,
             league: leagueId
         });
@@ -126,12 +124,17 @@ export const deleteTeam = async (req, res) => {
 }
 
 // visualizza le squadre dell'utente loggato
-export const myTeams = async (req, res) => {
+export const getMyTeams = async (req, res) => {
+    console.log("inizio getMyTeams" )
+    const userId = req.loggedUser._id;
+
     try {
-        const teams = await Team.find({ user: req.loggedUser._id }).populate('players');
+        const teams = await Team.find({ owner: userId });
+        console.log("teams", teams )
 
         res.status(200).json(teams);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }

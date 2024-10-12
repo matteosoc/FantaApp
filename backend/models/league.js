@@ -12,6 +12,11 @@ const leagueSchema = new Schema(
             trim: true,
             required: true
         },
+        budget: {
+            type: Number,
+            trim: true,
+            required: true
+        },
         players: [{ type: Schema.Types.ObjectId, ref: "Player" }], // Giocatori nella lega
         bonusMalus: [{ type: Schema.Types.ObjectId, ref: 'BonusMalus' }],
         numberOfParticipants: { type: Number, required: true }, // numero di squadra che possono iscriversi

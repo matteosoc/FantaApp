@@ -1,40 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { getBonusMalus } from '../data/fetch';
+import { getBonusMalus, applyBonusToPlayer } from '../data/fetch';
 
-
-// Funzione per applicare il bonus/malus al giocatore
-const applyBonusToPlayer = async (playerId, bonusId) => {
-    const response = await fetch(`/players/${playerId}/apply-bonus`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bonusId }),
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        return data;
-    } else {
-        const error = await response.json();
-        throw new Error(error.message);
-    }
-};
 
 const ApplyBonusPage = () => {
     const { playerId } = useParams(); // Recupera playerId dai parametri URL
     const { token } = useContext(AuthContext);
+    const location = useLocation();
+
+    // Recupera il leagueId dallo state passato tramite navigate
+    const leagueId = location.state?.leagueId;
 
     const navigate = useNavigate(); // Per navigare a altre pagine
-    const [bonuses, setBonuses] = useState([]); // Stato per i bonus/malus
+    const [allBonusMalus, setBonuses] = useState([]); // Stato per i bonus/malus
     const [selectedBonus, setSelectedBonus] = useState(''); // Stato per il bonus selezionato
 
     // Effettua il fetch dei bonus/malus all'inizializzazione del componente
     useEffect(() => {
+        if (!leagueId) {
+            console.error('League ID non trovato!');
+            return;
+        }
+        
+        console.log(leagueId)
+
         const loadBonusMalus = async () => {
-            const loadedBonuses = await getBonusMalus(token);
+            const loadedBonuses = await getBonusMalus(leagueId, token);
+
+            console.log("loadedBonuses:" + JSON.stringify(loadedBonuses))
+
             setBonuses(loadedBonuses);
         };
 
@@ -44,8 +39,9 @@ const ApplyBonusPage = () => {
     // Gestisce l'applicazione del bonus/malus al giocatore
     const handleBonusApplication = async () => {
         try {
-            await applyBonusToPlayer(playerId, selectedBonus);
+            const applyBonusMalus = await applyBonusToPlayer(playerId, token, selectedBonus);
             alert('Bonus/Malus applicato con successo!');
+            console.log(applyBonusMalus)
             navigate(-1); // Torna indietro alla schermata precedente
         } catch (error) {
             alert(`Errore nell'applicazione del Bonus/Malus: ${error.message}`);
@@ -60,7 +56,7 @@ const ApplyBonusPage = () => {
             <label>Seleziona Bonus/Malus:</label>
             <select value={selectedBonus} onChange={(e) => setSelectedBonus(e.target.value)}>
                 <option value="">-- Seleziona un Bonus/Malus --</option>
-                {bonuses.map((bonus) => (
+                {allBonusMalus.map((bonus) => (
                     <option key={bonus._id} value={bonus._id}>
                         {bonus.name} ({bonus.value > 0 ? `+${bonus.value}` : bonus.value})
                     </option>

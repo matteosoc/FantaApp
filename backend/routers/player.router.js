@@ -11,13 +11,13 @@ playerRouter.get('/:id', auth, hasRole('admin'), playerController.getPlayer);
 // pubblica un player
 playerRouter.post('/', auth, hasRole('admin'), playerController.postPlayer);
 
+// assegna bonus malus ai giocatori
+playerRouter.put('/:playerId/apply-bonus', auth, hasRole('admin'), playerController.applyBonusToPlayer);
+
 //modifica un player
 playerRouter.put('/:id', auth, hasRole('admin'), playerController.updatePlayer);
 
 // cancella un player
 playerRouter.delete('/:id', auth, hasRole('admin'), playerController.deletePlayer);
-
-// assegna bonus malus ai giocatori
-playerRouter.put('/:playerId/applybonus', auth, hasRole('admin'), playerController.applyBonusToPlayer);
 
 export default playerRouter;

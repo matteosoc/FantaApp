@@ -123,7 +123,7 @@ export const createLeague = async (leagueFormValue, token) => {
         const res = await fetch(`${BASE_URL}/leagues`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`
             },
             method: 'POST',
             body: JSON.stringify(leagueFormValue)
@@ -202,46 +202,51 @@ export const postBonusMalus = async (token, bonusMalusForm) => {
 };
 
 // Funzione per partecipare a una lega
-export const joinLeague = async (leagueId, password, token) => {
+export const joinLeague = async (leagueForm, token) => {
     try {
         console.log("inizio fetch join lega");
 
-        const res = await fetch(`${BASE_URL}/leagues/${leagueId}/join`, {
+        const response = await fetch(`${BASE_URL}/leagues/join`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`
             },
-            method: 'POST',
-            body: JSON.stringify({ password })
+            body: JSON.stringify(leagueForm)
         });
 
-        if (res.ok) {
-            const data = await res.json();
-            console.log("fine fetch join lega");
-            return data;
-        } else {
-            const errorData = await res.json();
-            return { error: errorData.message || 'Errore nell\'iscrizione alla lega' };
+        // Controlla se la risposta è ok
+        console.log('Raw response:', response);  // Log della risposta grezza
+
+        // Leggi il body solo una volta
+        if (!response.ok) {
+            throw new Error(`Errore HTTP! status: ${response.status}`);
         }
 
+        const data = await response.json();  // Qui leggi il JSON dalla risposta
+        console.log('Response data:', data);
+
+        return data; // Restituisci i dati della risposta
+
+
     } catch (error) {
-        console.error("Errore catturato:", error); // Logga l'errore
-        return { error: 'Errore nell\'iscrizione alla lega' };
+        console.error('Errore durante l\'iscrizione alla lega:', error);
+        throw error;
     }
 };
 
 // Funzione per creare una squadra in una lega
-export const createTeam = async (teamFormValue, token) => {
+export const createTeam = async (leagueId, newTeam, token) => {
     try {
         console.log("inizio fetch creazione squadra");
 
-        const res = await fetch(`${BASE_URL}/teams`, {
+        const res = await fetch(`${BASE_URL}/leagues/${leagueId}/create-team`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
             method: 'POST',
-            body: JSON.stringify(teamFormValue)
+            body: JSON.stringify(newTeam)
         });
 
         if (res.ok) {
@@ -270,7 +275,7 @@ export const getLeagueDetails = async (leagueId, token) => {
         const response = await fetch(`${BASE_URL}/leagues/my-leagues/${leagueId}/`, {
             headers: {
                 Authorization: `Bearer ${token}`
-            },
+            }
         });
 
         // Verifica se la risposta è valida
@@ -286,6 +291,36 @@ export const getLeagueDetails = async (leagueId, token) => {
 
     } catch (error) {
         console.log(error)
+    }
+};
+
+export const getTeamDetails = async (teamId, token) => {
+
+    console.log("prima della fetch getTeamDetails")
+
+        console.log("teamdId" + teamId)
+        console.log("token" + token)
+
+    try {
+        const response = await fetch(`${BASE_URL}/teams/my-teams/${teamId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Aggiungi il token se richiesto
+            }
+        });
+        // Verifica se la risposta è valida
+        if (!response.ok) {
+            throw new Error('Errore nella fetch dei dettagli della lega');
+        }
+
+        // Assicurati di leggere il corpo della risposta una sola volta
+        const teamData = await response.json();
+        console.log("dopo la fetch getTeamDetails", teamData);
+
+        return teamData;  // Restituisci i dati della squadra
+
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 };
 
@@ -368,30 +403,91 @@ export const getLeagueRanking = async (leagueId, token) => {
 };
 
 // funzione per caricare i bonus e malus di una lega
-export const getBonusMalus = async (token) => {
+export const getBonusMalus = async (leagueId, token) => {
     try {
-        console.log("inizio fetch leghe dell'utente");
+        console.log("inizio fetch getBonusMalus");
 
-        const res = await fetch(`${BASE_URL}/bonus_malus/`, {
+        const res = await fetch(`${BASE_URL}/leagues/my-leagues/${leagueId}/bonus-malus`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
         });
-        console.log("fine fetch leghe dell'utente");
-
+        console.log("dopo fetch getBonusMalus");
 
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
 
-            console.log("fine fetch leghe");
-            return data;
+            console.log("fine fetch getBonusMalus ecco i dati: " + data);
+            return data.bonusMalus;
+
         } else {
             const errorData = await res.json();
-            return { error: errorData.message || 'Errore nel recupero delle leghe' };
+            return { error: errorData.message || 'Errore nel recupero' };
         }
 
     } catch (error) {
         return { error: 'Errore nel recupero delle leghe' };
     }
 };
+
+// Funzione per applicare il bonus/malus al giocatore
+export const applyBonusToPlayer = async (playerId, token, bonusId) => {
+    try {
+        console.log("prima della fetch bonusId: " + bonusId)
+        console.log("prima della fetch token: " + token)
+        console.log(JSON.stringify({ bonusId })); // Controlla il contenuto del body della richiesta
+
+
+        const response = await fetch(`${BASE_URL}/players/${playerId}/apply-bonus`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ bonusId })
+        });
+        console.log("dopo fetch applyBonusToPlayer")
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            const error = await response.json();
+            throw new Error(error.message);
+        }
+    } catch (err) {
+        console.log(err)
+    }
+};
+
+export const getMyTeams = async (token) => {
+    try {
+        console.log("inizio fetch getMyTeams");
+
+        const res = await fetch(`${BASE_URL}/teams/my-teams/`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+        });
+        console.log("fine fetch leghe dell'utente");
+
+        console.log("Raw response:", res); // Aggiungi questo per visualizzare la risposta grezza
+
+        // Controlla se `res` è effettivamente in formato JSON
+        const text = await res.text();
+        console.log("Response text:", text); // Log del testo della risposta
+
+        // Prova a fare il parsing del JSON solo se possibile
+        const data = JSON.parse(text);
+
+        if (res.ok) {
+            console.log(data);
+            return data;
+        } else {
+            return { error: data.message || 'Errore nel recupero delle squadre' };
+        }
+    } catch (error) {
+        console.log(error)
+        return { error: 'Errore nel recupero delle leghe' };
+    }
+} 

@@ -13,6 +13,9 @@ import CreatePlayersPage from './pages/CreatePlayers.jsx'
 import CreateBonusMalus from './pages/CreateBonusMalus.jsx';
 import LeagueDetails from './pages/LeagueDetails.jsx';
 import ApplyBonusPage from './pages/ApplyBonusToPlayers.jsx';
+import JoinLeagueForm from './pages/JoinLeagueForm.jsx';
+import CreateTeamPage from './pages/CreateTeamPage.jsx';
+import TeamDetails from './pages/TeamDetails.jsx';
 
 
 
@@ -32,6 +35,9 @@ function App() {
             <Route path="/create-bonus-malus/:leagueId" element={<CreateBonusMalus />} />
             <Route path="/leagues/:leagueId" element={<LeagueDetails />} />
             <Route path="/players/:playerId/apply-bonus" element={<ApplyBonusPage />} />
+            <Route path="/join-league" element={<JoinLeagueForm />} />
+            <Route path="/leagues/:leagueId/create-team" element={<CreateTeamPage />} />
+            <Route path="/teams/:teamId" element={<TeamDetails />} />
           </Routes>
         </Container>
       </Router>

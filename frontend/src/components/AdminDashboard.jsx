@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Button, Card, ListGroup } from 'react-bootstrap';
 import { getMyLeagues } from '../data/fetch'; // Importiamo solo la funzione getLeagues
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 const AdminDashboard = () => {
@@ -12,8 +11,6 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true); // Stato per il caricamento
   const { token, userInfo } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  
 
   // Fetch leagues on load
   useEffect(() => {

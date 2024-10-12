@@ -5,8 +5,11 @@ import hasRole from '../middlewares/hasRole.js';
 
 const teamRouter = express.Router();
 
+// visualizza le mie squadre
+teamRouter.get('/my-teams', auth, hasRole('teamOwner'), teamController.getMyTeams);
+
 // visualizza squadra da id
-teamRouter.get('/:id', auth, hasRole('teamOwner'), teamController.getTeam);
+teamRouter.get('/my-teams/:id', auth, hasRole('teamOwner'), teamController.getTeam);
 
 // crea squadra
 // teamRouter.post('/', auth, hasRole('teamOwner'), teamController.postTeam);
@@ -14,14 +17,10 @@ teamRouter.get('/:id', auth, hasRole('teamOwner'), teamController.getTeam);
 // crea squadra con controllo budget
 teamRouter.post('/', auth, hasRole('teamOwner'), teamController.postTeamTwo);
 
-
 // modifica squadra
 teamRouter.put('/:id', auth, hasRole('teamOwner'), teamController.updateTeam);
 
 // cancella squadra, consentito solo ad admin
 teamRouter.delete('/:id', auth, hasRole('admin'), teamController.deleteTeam);
-
-// visualizza le mie squadre
-teamRouter.get('my', auth, hasRole('teamOwner'), teamController.myTeams);
 
 export default teamRouter;

@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 
 const LeagueDetails = () => {
   const { leagueId } = useParams(); // Ottieni l'ID della lega dalla URL
+  const { token } = useContext(AuthContext);
+  
   const [league, setLeague] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { token } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -54,6 +55,7 @@ const LeagueDetails = () => {
         <Card.Header>Informazioni</Card.Header>
         <ListGroup variant="flush">
           <ListGroup.Item>Numero di partecipanti: {league.numberOfParticipants}</ListGroup.Item>
+          <ListGroup.Item>Budget: {league.budget}</ListGroup.Item>
           <ListGroup.Item>Admin: {league.admin.name}</ListGroup.Item>
           {/* Aggiungi ulteriori dettagli se necessario */}
         </ListGroup>
@@ -66,9 +68,9 @@ const LeagueDetails = () => {
           {league.players.length > 0 ? (
             league.players.map((player) => (
               <ListGroup.Item key={player._id}>
-                {player.name} - Punteggio: {player.value}
+                {player.name} - Punteggio: {player.score}
                 <Button
-                  onClick={() => navigate(`/players/${player._id}/apply-bonus`)} // Navigazione alla pagina dei dettagli della lega
+                  onClick={() => navigate(`/players/${player._id}/apply-bonus`, { state: { leagueId } })} // Navigazione alla pagina dei dettagli della lega
                 >
                   Assegna Bonus / Malus
                 </Button>

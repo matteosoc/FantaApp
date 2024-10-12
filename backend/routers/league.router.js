@@ -13,7 +13,10 @@ leaguesRouter.get('/', auth, hasRole('admin'), leaguesController.getAllLeagues);
 leaguesRouter.get("/my-leagues", auth, hasRole('admin'), leaguesController.getLeaguesByAdmin);
 
 //ottieni la leghe dell'utente loggato
-leaguesRouter.get('/my-leagues/:id/', auth, hasRole('admin'), leaguesController.getLeague);
+leaguesRouter.get('/my-leagues/:id/', auth, leaguesController.getLeague);
+
+//ottieni la leghe dell'utente loggato
+leaguesRouter.get('/my-leagues/:id/bonus-malus', auth, hasRole('admin'), leaguesController.getBonusMalusLeague);
 
 // crea una nuova lega
 leaguesRouter.post('/', auth, hasRole('admin'), leaguesController.postNewLeague);
@@ -27,7 +30,11 @@ leaguesRouter.delete('/:id', auth, hasRole('admin'), leaguesController.deleteLea
 // visualizza la classifica della lega da teamOwner
 leaguesRouter.get('/:id/leaderboard', auth, leaguesController.leaderboardLeague);
 
-// iscriviti a una lega
-leaguesRouter.post('/join', auth, leaguesController.joinLeague);
+// inserisce una squadra nella lega
+leaguesRouter.post('/join', auth, hasRole('teamOwner'), leaguesController.joinLeague);
+
+// crea la squadra nella lega
+leaguesRouter.post('/:id/create-team', auth, hasRole('teamOwner'), leaguesController.createTeamInLeague);
+
 
 export default leaguesRouter;

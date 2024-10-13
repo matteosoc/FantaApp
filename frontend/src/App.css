@@ -39,5 +39,5 @@
 }
 
 .max-height {
-  height: 90vh;
+  height: calc(100vh - 70px - 72px);
 }

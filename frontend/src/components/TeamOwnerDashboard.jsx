@@ -6,9 +6,6 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { getMyTeams } from '../data/fetch';
 
-import JoinLeagueForm from '../pages/JoinLeagueForm';
-import LeagueList from './LeagueList';
-
 const TeamOwnerDashboard = () => {
     const { token, userInfo } = useContext(AuthContext);
     const [loading, setLoading] = useState(true); // Stato per il caricamento

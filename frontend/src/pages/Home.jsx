@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
+import { Button, Container, Row, Col } from "react-bootstrap";
+
 
 
 const Home = () => {
@@ -24,30 +25,35 @@ const Home = () => {
   }, [])
 
   return (
-    <div className="container text-center center-content">
+    <Container className='mt-5'>
       {!token &&
-        <div>
-          <h1>Benvenuto su FantaApp</h1>
-          <p>Effettua il login o registrati per partecipare al gioco</p>
-          <div className="mt-5">
-            <button className="btn btn-primary me-3" onClick={() => navigate('/login')}>
-              Login
-            </button>
-            <button className="btn btn-secondary" onClick={() => navigate('/register')}>
-              Registrati
-            </button>
-          </div>
-        </div>}
-        {token &&
-        <div>
+        <Row>
+          <Col md={8}>
+            <h1>Benvenuto/a su FantaApp</h1>
+            <p>Effettua il login o registrati per partecipare al gioco</p>
+            <div className="mt-5">
+              <Button className="btn-primary me-3" onClick={() => navigate('/login')}>
+                Login
+              </Button>
+              <Button className="btn-secondary" onClick={() => navigate('/register')}>
+                Registrati
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      }
+      {token &&
+        <Row>
+          <Col md={8}>
           <h1>Bentornato su FantaApp</h1>
           <div className="mt-5">
             <button className="btn btn-primary me-3" onClick={() => navigate('/dashboard')}>
               Vai alla dashboard
             </button>
           </div>
-        </div>}
-    </div>
+          </Col>
+        </Row>}
+    </ Container>
   );
 };
 

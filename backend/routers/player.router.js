@@ -6,7 +6,7 @@ import hasRole from '../middlewares/hasRole.js';
 const playerRouter = express.Router();
 
 // mostra un player
-playerRouter.get('/:id', auth, hasRole('admin'), playerController.getPlayer);
+playerRouter.get('/:id', auth, playerController.getPlayer);
 
 // pubblica un player
 playerRouter.post('/', auth, hasRole('admin'), playerController.postPlayer);

@@ -1,5 +1,4 @@
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Button, Container, Navbar } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -25,13 +24,23 @@ function Header() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        { token && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
+                        {token && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#deets">More deets</Nav.Link>
-                        {token && <Button className="ms-2 me-2" variant="primary" onClick={handleLogout}>
-                            Logout
-                        </Button>}
+                        <Nav.Link>
+                            <Button variant="outline-secondary">
+                                Invita un amico
+                            </Button>
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/help">
+                            <Button variant="link">
+                                Help
+                            </Button>
+                        </Nav.Link>
+                        {token &&
+                            <Button className='m-0' variant="primary" onClick={handleLogout}>
+                                Logout
+                            </Button>}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

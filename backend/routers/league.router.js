@@ -18,6 +18,9 @@ leaguesRouter.get('/my-leagues/:id/', auth, leaguesController.getLeague);
 //ottieni la leghe dell'utente loggato
 leaguesRouter.get('/my-leagues/:id/bonus-malus', auth, hasRole('admin'), leaguesController.getBonusMalusLeague);
 
+// visualizza la classifica della lega da teamOwner
+leaguesRouter.get('/leaderboard/:id', auth, leaguesController.leaderboardLeague);
+
 // crea una nuova lega
 leaguesRouter.post('/', auth, hasRole('admin'), leaguesController.postNewLeague);
 
@@ -26,9 +29,6 @@ leaguesRouter.put('/:id', auth, hasRole('admin'), leaguesController.updateLeague
 
 // cancella una lega
 leaguesRouter.delete('/:id', auth, hasRole('admin'), leaguesController.deleteLeague);
-
-// visualizza la classifica della lega da teamOwner
-leaguesRouter.get('/:id/leaderboard', auth, leaguesController.leaderboardLeague);
 
 // inserisce una squadra nella lega
 leaguesRouter.post('/join', auth, hasRole('teamOwner'), leaguesController.joinLeague);

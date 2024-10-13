@@ -378,11 +378,11 @@ export const assignBonusMalus = async (playerId, bonusMalusId, token) => {
 };
 
 // Funzione per visualizzare la classifica di una lega
-export const getLeagueRanking = async (leagueId, token) => {
+export const getLeagueLeaderboard = async (leagueId, token) => {
     try {
         console.log("inizio fetch classifica lega");
 
-        const res = await fetch(`${BASE_URL}/leagues/${leagueId}/ranking`, {
+        const res = await fetch(`${BASE_URL}/leagues/leaderboard/${leagueId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
@@ -491,3 +491,33 @@ export const getMyTeams = async (token) => {
         return { error: 'Errore nel recupero delle leghe' };
     }
 } 
+
+export const getPlayer = async (playerId, token) => {
+    console.log("playerId", playerId)
+    console.log("token", token)
+
+
+    try {
+        console.log("inizio fetch getPlayer");
+
+        const res = await fetch(`${BASE_URL}/players/${playerId}/`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+        });
+        console.log("fine fetch getPlayer");
+
+        // Prova a fare il parsing del JSON solo se possibile
+        const data = res.json();
+
+        if (res.ok) {
+            console.log(data);
+            return data;
+        } else {
+            return { error: data.message || 'Errore nel recupero del player' };
+        }
+    } catch (error) {
+        console.log(error)
+        return { error: 'Errore nel recupero del player' };
+    }
+}

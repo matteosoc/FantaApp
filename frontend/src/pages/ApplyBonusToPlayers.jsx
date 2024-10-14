@@ -2,46 +2,36 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { getBonusMalus, applyBonusToPlayer } from '../data/fetch';
-
+import LeftArrow from '../components/LeftArrow';
+import { Row, Col, Form, Button, Container } from 'react-bootstrap';
 
 const ApplyBonusPage = () => {
     const { playerId } = useParams(); // Recupera playerId dai parametri URL
     const { token } = useContext(AuthContext);
     const location = useLocation();
-
-    // Recupera il leagueId dallo state passato tramite navigate
-    const leagueId = location.state?.leagueId;
-
+    const leagueId = location.state?.leagueId; // Recupera il leagueId dallo state passato tramite navigate
     const navigate = useNavigate(); // Per navigare a altre pagine
     const [allBonusMalus, setBonuses] = useState([]); // Stato per i bonus/malus
     const [selectedBonus, setSelectedBonus] = useState(''); // Stato per il bonus selezionato
 
-    // Effettua il fetch dei bonus/malus all'inizializzazione del componente
     useEffect(() => {
         if (!leagueId) {
             console.error('League ID non trovato!');
             return;
         }
-        
-        console.log(leagueId)
 
         const loadBonusMalus = async () => {
             const loadedBonuses = await getBonusMalus(leagueId, token);
-
-            console.log("loadedBonuses:" + JSON.stringify(loadedBonuses))
-
             setBonuses(loadedBonuses);
         };
 
         loadBonusMalus();
-    }, []);
+    }, [leagueId, token]);
 
-    // Gestisce l'applicazione del bonus/malus al giocatore
     const handleBonusApplication = async () => {
         try {
             const applyBonusMalus = await applyBonusToPlayer(playerId, token, selectedBonus);
             alert('Bonus/Malus applicato con successo!');
-            console.log(applyBonusMalus)
             navigate(-1); // Torna indietro alla schermata precedente
         } catch (error) {
             alert(`Errore nell'applicazione del Bonus/Malus: ${error.message}`);
@@ -49,25 +39,41 @@ const ApplyBonusPage = () => {
     };
 
     return (
-        <div>
-            <h2>Applica Bonus/Malus al Giocatore: {playerId} </h2>
+        <Container>
+            <Row className="justify-content-md-center mt-4">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h2 className="mb-4">Applica Bonus/Malus al Giocatore: {playerId}</h2>
 
-            {/* Dropdown per selezionare un bonus/malus */}
-            <label>Seleziona Bonus/Malus:</label>
-            <select value={selectedBonus} onChange={(e) => setSelectedBonus(e.target.value)}>
-                <option value="">-- Seleziona un Bonus/Malus --</option>
-                {allBonusMalus.map((bonus) => (
-                    <option key={bonus._id} value={bonus._id}>
-                        {bonus.name} ({bonus.value > 0 ? `+${bonus.value}` : bonus.value})
-                    </option>
-                ))}
-            </select>
+                    <Form>
+                        <Form.Group controlId="selectBonus">
+                            <Form.Label>Seleziona Bonus/Malus:</Form.Label>
+                            <Form.Control 
+                                as="select" 
+                                value={selectedBonus} 
+                                onChange={(e) => setSelectedBonus(e.target.value)}
+                            >
+                                <option value="">-- Seleziona un Bonus/Malus --</option>
+                                {allBonusMalus.map((bonus) => (
+                                    <option key={bonus._id} value={bonus._id}>
+                                        {bonus.name} ({bonus.value > 0 ? `+${bonus.value}` : bonus.value})
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
 
-            {/* Bottone per applicare il bonus/malus */}
-            <button onClick={handleBonusApplication} disabled={!selectedBonus}>
-                Applica Bonus/Malus
-            </button>
-        </div>
+                        <Button 
+                            variant="primary" 
+                            onClick={handleBonusApplication} 
+                            disabled={!selectedBonus} 
+                            className="mt-3 w-100"
+                        >
+                            Applica Bonus/Malus
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

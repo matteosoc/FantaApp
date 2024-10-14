@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { joinLeague, createTeam, getMyLeagues } from '../data/fetch';
-import { Container, Button, Card, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, ListGroup } from 'react-bootstrap';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { getMyTeams } from '../data/fetch';
+import Stack from 'react-bootstrap/Stack';
+
 
 const TeamOwnerDashboard = () => {
     const { token, userInfo } = useContext(AuthContext);
@@ -35,63 +36,45 @@ const TeamOwnerDashboard = () => {
         loadTeams();
     }, [token]);
 
-    // // Funzione per iscriversi a una lega
-    // const handleJoinLeague = async (leagueName, leaguePassword) => {
-    //     const res = await joinLeague({ leagueName, leaguePassword });
-    //     if (res.success) {
-    //         alert('Iscritto alla lega con successo!');
-    //         setPlayers(res.players); // Popola la lista dei giocatori della lega
-    //         setIsJoined(true); // Imposta il flag a true per visualizzare CreateTeamForm
-    //     } else {
-    //         alert(res.error || 'Errore nell\'iscrizione alla lega');
-    //     }
-    // };
-
-    // // Funzione per aggiornare il budget quando si seleziona un giocatore
-    // const handleSelectPlayer = (player) => {
-    //     setBudget(budget - player.value);
-    // };
-
-    // // Funzione per creare la squadra
-    // const handleCreateTeam = async (teamName, selectedPlayers) => {
-    //     const res = await createTeam({ teamName, players: selectedPlayers });
-    //     if (res.success) {
-    //         alert('Squadra creata con successo!');
-    //     } else {
-    //         alert(res.error || 'Errore nella creazione della squadra');
-    //     }
-    // };
-
     return (
-        <div>
-            {/* Join a league */}
-            {<Button as={Link} to="/join-league" variant="primary" className="my-3">
-                Iscriviti a una lega
-            </Button>
-            }
+        <Container >
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <h1>TeamOwner Dashboard</h1>
 
-            <Card className="my-3">
-                <Card.Header>Le tue teams</Card.Header>
-                <ListGroup variant="flush">
-                    {teams.length > 0 ? (
-                        teams.map((team) => (
-                            <ListGroup.Item key={team._id}>
-                                {team.name}
-                                <Button
-                                    variant="primary"
-                                    className="ml-2"
-                                    onClick={() => navigate(`/teams/${team._id}`)} // Navigazione alla pagina dei dettagli della lega
-                                >
-                                    Gestisci
-                                </Button>
-                            </ListGroup.Item>
-                        ))
-                    ) : (
-                        <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
-                    )}
-                </ListGroup>
-            </Card>
-        </div>
+                    {/* Join a league */}
+                    {<Button as={Link} to="/join-league" variant="primary" className="my-3">
+                        Iscriviti a una lega
+                    </Button>
+                    }
+
+                    <Card className="my-3">
+                        <Card.Header>Le tue teams</Card.Header>
+                        <ListGroup variant="flush">
+                            {teams.length > 0 ? (
+                                teams.map((team) => (
+                                    <ListGroup.Item key={team._id}>
+                                        <Stack direction="horizontal" gap={3}>
+                                            <div>{team.name}</div>
+                                            <Button
+                                                variant="primary"
+                                                className="ml-2 ms-auto"
+                                                size="sm"
+                                                onClick={() => navigate(`/teams/${team._id}`)} // Navigazione alla pagina dei dettagli della lega
+                                            >
+                                                Gestisci
+                                            </Button>
+                                        </Stack>
+                                    </ListGroup.Item>
+                                ))
+                            ) : (
+                                <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
+                            )}
+                        </ListGroup>
+                    </Card>
+                </Col>
+            </ Row>
+        </Container>
     );
 };
 

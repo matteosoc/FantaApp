@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Card, ListGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'; // Per ottenere l'ID della lega dalla URL
 import { getLeagueDetails } from '../data/fetch'; // Funzione per chiamare l'API e ottenere i dettagli
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Stack from 'react-bootstrap/Stack';
+import LeftArrow from '../components/LeftArrow';
+
 
 
 const LeagueDetails = () => {
   const { leagueId } = useParams(); // Ottieni l'ID della lega dalla URL
   const { token } = useContext(AuthContext);
-  
+
   const [league, setLeague] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,75 +51,84 @@ const LeagueDetails = () => {
 
   return (
     <Container>
-      <h1>Dettagli della Lega: {league.name}</h1>
+      <Row className="justify-content-md-center">
+        <Col md={6}>
+          <LeftArrow />
+          <h1>Dettagli della Lega: {league.name}</h1>
 
-      {/* Dettagli principali della lega */}
-      <Card className="my-3">
-        <Card.Header>Informazioni</Card.Header>
-        <ListGroup variant="flush">
-          <ListGroup.Item>Numero di partecipanti: {league.numberOfParticipants}</ListGroup.Item>
-          <ListGroup.Item>Budget: {league.budget}</ListGroup.Item>
-          <ListGroup.Item>Admin: {league.admin.name}</ListGroup.Item>
-          {/* Aggiungi ulteriori dettagli se necessario */}
-        </ListGroup>
-      </Card>
+          {/* Dettagli principali della lega */}
+          <Card className="my-3">
+            <Card.Header>Informazioni</Card.Header>
+            <ListGroup variant="flush">
+              <ListGroup.Item>Numero di partecipanti: {league.numberOfParticipants}</ListGroup.Item>
+              <ListGroup.Item>Budget: {league.budget}</ListGroup.Item>
+              <ListGroup.Item>Admin: {league.admin.name}</ListGroup.Item>
+              {/* Aggiungi ulteriori dettagli se necessario */}
+            </ListGroup>
+          </Card>
 
-      {/* Lista dei giocatori */}
-      <Card className="my-3">
-        <Card.Header>Players</Card.Header>
-        <ListGroup variant="flush">
-          {league.players.length > 0 ? (
-            league.players.map((player) => (
-              <ListGroup.Item key={player._id}>
-                {player.name} - Punteggio: {player.score}
-                <Button
-                  onClick={() => navigate(`/players/${player._id}/apply-bonus`, { state: { leagueId } })} // Navigazione alla pagina dei dettagli della lega
-                >
-                  Assegna Bonus / Malus
-                </Button>
-              </ListGroup.Item>
-            ))
-          ) : (
-            <ListGroup.Item>Nessun giocatore nella lega.</ListGroup.Item>
-          )}
-        </ListGroup>
-      </Card>
+          {/* Lista dei giocatori */}
+          <Card className="my-3">
+            <Card.Header>Players</Card.Header>
+            <ListGroup variant="flush">
+              {league.players.length > 0 ? (
+                league.players.map((player) => (
+                  <ListGroup.Item key={player._id}>
+                    <Stack direction="horizontal" gap={3}>
+                    <div>{player.name} - Punteggio: {player.score}</div>
+                    <Button
+                      className='ms-auto'
+                      size='sm'
+                      onClick={() => navigate(`/players/${player._id}/apply-bonus`, { state: { leagueId } })} // Navigazione alla pagina dei dettagli della lega
+                    >
+                      Assegna Bonus / Malus
+                    </Button>
+                    </Stack>
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <ListGroup.Item>Nessun giocatore nella lega.</ListGroup.Item>
+              )}
+            </ListGroup>
+          </Card>
 
-      {/* Lista dei bonus/malus */}
-      <Card className="my-3">
-        <Card.Header>Bonus/Malus</Card.Header>
-        <ListGroup variant="flush">
-          {league.bonusMalus.length > 0 ? (
-            league.bonusMalus.map((bonus) => (
-              <ListGroup.Item key={bonus._id}>
-                {bonus.name} - Valore: {bonus.value}
-              </ListGroup.Item>
-            ))
-          ) : (
-            <ListGroup.Item>Nessun bonus/malus assegnato.</ListGroup.Item>
-          )}
-        </ListGroup>
-      </Card>
+          {/* Lista dei bonus/malus */}
+          <Card className="my-3">
+            <Card.Header>Bonus/Malus</Card.Header>
+            <ListGroup variant="flush">
+              {league.bonusMalus.length > 0 ? (
+                league.bonusMalus.map((bonus) => (
+                  <ListGroup.Item key={bonus._id}>
+                    {bonus.name} - Valore: {bonus.value}
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <ListGroup.Item>Nessun bonus/malus assegnato.</ListGroup.Item>
+              )}
+            </ListGroup>
+          </Card>
 
-      {/* Lista dei teams */}
-      <Card className="my-3">
-        <Card.Header>Teams</Card.Header>
-        <ListGroup variant="flush">
-          {league.teams.length > 0 ? (
-            league.teams.map((team) => (
-              <ListGroup.Item key={team._id}>
-                {team.name}
-              </ListGroup.Item>
-            ))
-          ) : (
-            <ListGroup.Item>Nessuna squadra iscritta.</ListGroup.Item>
-          )}
-        </ListGroup>
-      </Card>
+          {/* Lista dei teams */}
+          <Card className="my-3">
+            <Card.Header>Teams</Card.Header>
+            <ListGroup variant="flush">
+              {league.teams.length > 0 ? (
+                league.teams.map((team) => (
+                  <ListGroup.Item key={team._id}>
+                    {team.name}
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <ListGroup.Item>Nessuna squadra iscritta.</ListGroup.Item>
+              )}
+            </ListGroup>
+          </Card>
 
-      <Button variant="primary" onClick={() => console.log('Gestisci i dettagli della lega')}>
-        Modifica Lega
-      </Button>
+          <Button variant="primary" onClick={() => console.log('Gestisci i dettagli della lega')}>
+            Modifica Lega
+          </Button>
+        </Col>
+      </ Row>
     </Container>
   );
 };

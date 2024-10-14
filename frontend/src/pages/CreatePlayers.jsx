@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { postPlayer } from "../data/fetch"; // Funzione che fa la POST dei giocatori
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import LeftArrow from '../components/LeftArrow';
+
 
 const CreatePlayersPage = () => {
     const { leagueId } = useParams(); // Otteniamo il leagueId dai parametri dell'URL
@@ -12,27 +15,20 @@ const CreatePlayersPage = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // Gestisce i cambiamenti nei campi del giocatore
     const handlePlayerChange = (index, e) => {
         const newPlayers = [...players];
         newPlayers[index][e.target.name] = e.target.value;
         setPlayers(newPlayers);
-        console.log(newPlayers);
     };
 
-    // Aggiunge un nuovo giocatore alla lista
     const addNewPlayer = () => {
         setPlayers([...players, { name: "", value: 0, league: leagueId }]);
     };
 
-    // Gestisce l'invio dei dati al backend
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Invio dei giocatori uno per uno
             for (const player of players) {
-                console.log("handle sumbit player:" + player)
-
                 const response = await postPlayer(token, player);
 
                 if (response.error) {
@@ -41,48 +37,60 @@ const CreatePlayersPage = () => {
                 }
             }
 
-            // Redirect or success message after creation
             if (window.confirm('Giocatori creati, passa alla creazione dei bonusmalus')) {
-                // console.log(leagueId);
-                // Una volta terminata l'aggiunta dei giocatori, reindirizza alla pagina per inserire i bonus/malus
                 navigate(`/create-bonus-malus/${leagueId}`);
-            };
+            }
 
         } catch (error) {
-            console.log(error)
             setError("Errore durante l'invio dei giocatori");
         }
     };
 
     return (
-        <div>
-            <h1>Inserisci Giocatori per la Lega: {leagueId}</h1>
-            <form>
-                {players.map((player, index) => (
-                    <div key={index}>
-                        <input
-                            type="text"
-                            name="name"
-                            value={player.name}
-                            placeholder="Nome giocatore"
-                            onChange={(e) => handlePlayerChange(index, e)}
-                        />
-                        <input
-                            type="number"
-                            name="value"
-                            value={player.value}
-                            placeholder="Valore"
-                            onChange={(e) => handlePlayerChange(index, e)}
-                        />
-                    </div>
-                ))}
-                <button type="button" onClick={addNewPlayer}>
-                    Aggiungi un altro giocatore
-                </button>
-                <button onClick={handleSubmit}>Salva Giocatori e Continua</button>
-            </form>
-            {error && <p>{error}</p>}
-        </div>
+        <Container className="mt-4">
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h1 className="mb-4">Crea i Giocatori per la Lega: {leagueId}</h1>
+                    <Form onSubmit={handleSubmit}>
+                        {players.map((player, index) => (
+                            <Row key={index} className="mb-4">
+                                <Form.Group className="mb-1" controlId={`playerName-${index}`}>
+                                    <Form.Label>Nome giocatore {index + 1}</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="name"
+                                        value={player.name}
+                                        placeholder="Nome giocatore"
+                                        onChange={(e) => handlePlayerChange(index, e)}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId={`playerValue-${index}`}>
+                                    <Form.Label>Valore</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="value"
+                                        value={player.value}
+                                        placeholder="Valore"
+                                        onChange={(e) => handlePlayerChange(index, e)}
+                                        required
+                                        min={0}
+                                    />
+                                </Form.Group>
+                            </Row>
+                        ))}
+                        <Button variant="secondary" type="button" onClick={addNewPlayer} className="me-2">
+                            Aggiungi un altro giocatore
+                        </Button>
+                        <Button variant="primary" type="submit">
+                            Salva Giocatori e Continua
+                        </Button>
+                    </Form>
+                    {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

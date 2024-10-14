@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Card, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, ListGroup } from 'react-bootstrap';
 import { getMyLeagues } from '../data/fetch'; // Importiamo solo la funzione getLeagues
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import Stack from 'react-bootstrap/Stack';
+
 
 
 const AdminDashboard = () => {
@@ -33,36 +35,43 @@ const AdminDashboard = () => {
   }
 
   return (
-    <Container>
-      <h1>Admin Dashboard</h1>
+    <Container >
+      <Row className="justify-content-md-center">
+        <Col md={6}>
+          <h1>Admin Dashboard</h1>
 
-      {/* Button to navigate to create league page */}
-      <Button as={Link} to="/createLeague" variant="primary" className="my-3">
-        Crea una nuova Lega
-      </Button>
+          {/* Button to navigate to create league page */}
+          <Button as={Link} to="/createLeague" variant="primary" className="my-3">
+            Crea una nuova Lega
+          </Button>
 
-      {/* List of leagues */}
-      <Card className="my-3">
-        <Card.Header>Le tue Leghe</Card.Header>
-        <ListGroup variant="flush">
-          {leagues.length > 0 ? (
-            leagues.map((league) => (
-              <ListGroup.Item key={league._id}>
-                {league.name}
-                <Button
-                  variant="primary"
-                  className="ml-2"
-                  onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
-                >
-                  Gestisci
-                </Button>
-              </ListGroup.Item>
-            ))
-          ) : (
-            <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
-          )}
-        </ListGroup>
-      </Card>
+          {/* List of leagues */}
+          <Card className="my-3">
+            <Card.Header>Le tue Leghe</Card.Header>
+            <ListGroup variant="flush">
+              {leagues.length > 0 ? (
+                leagues.map((league) => (
+                  <ListGroup.Item key={league._id}>
+                    <Stack direction="horizontal" gap={3}>
+                    <div>{league.name}</div>
+                    <Button
+                      variant="primary"
+                      className="ml-2 ms-auto"
+                      size="sm"
+                      onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
+                    >
+                      Gestisci
+                    </Button>
+                    </Stack>
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
+              )}
+            </ListGroup>
+          </Card>
+        </Col>
+      </ Row>
     </Container>
   );
 };

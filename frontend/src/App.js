@@ -1,4 +1,5 @@
 import './App.css';
+
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -30,7 +31,7 @@ function App() {
     <AuthContextProvider>
       <Router>
         <Header />
-        <Container className='max-height p-3'>
+        <Container className='max-height p-5 overflow-y'>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -47,7 +48,7 @@ function App() {
             <Route path="/teams/:teamId" element={<TeamDetails />} />
             <Route path="/players/:playerId" element={<PlayerDetails />} />
           </Routes>
-        </Container>
+        </Container >
       </Router>
       <Footer />
     </ AuthContextProvider>

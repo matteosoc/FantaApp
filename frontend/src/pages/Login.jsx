@@ -4,6 +4,7 @@ import { login } from '../data/fetch'; // Importa la funzione login da fetch.js
 import { AuthContext } from '../context/AuthContext'; // Context per gestire le autorizzazioni
 import { useNavigate } from "react-router-dom";
 
+import '../App.css';
 
 const Login = () => {
   const navigate = useNavigate();

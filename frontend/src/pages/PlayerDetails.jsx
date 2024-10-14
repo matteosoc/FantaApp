@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Spinner, Alert, ListGroup, Button, Container, Row } from 'react-bootstrap';
+import { Card, Spinner, Alert, ListGroup, Col, Container, Row } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
 import { getPlayer } from '../data/fetch'; // Funzioni per recuperare i dati
 import { useNavigate } from 'react-router-dom';
+import LeftArrow from '../components/LeftArrow';
 
 
 const PlayerDetails = () => {
@@ -53,34 +54,34 @@ const PlayerDetails = () => {
 
     return (
         <Container>
-                {/* Pulsante per tornare indietro */}
-                <Button variant="primary" onClick={() => navigate(-1)} className="mt-3">
-                    Torna indietro
-                </Button>
-            <Row>
-                <Card className="my-4">
-                    <Card.Header>
-                        <h2>Dettagli del Giocatore: {player.name}</h2>
-                    </Card.Header>
-                    <Card.Body>
-                        <p><strong>Valore:</strong> {player.value}</p>
-                        <p><strong>Punteggio:</strong> {player.score}</p>
-                        <h5>Bonus Applicati:</h5>
-                        {player.bonusesApplied && player.bonusesApplied.length > 0 ? (
-                            <ListGroup>
-                                {player.bonusesApplied.map((bonus, index) => (
-                                    <ListGroup.Item key={index}>
-                                        <strong>{bonus.name}</strong>: {bonus.value} punti
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        ) : (
-                            <p>Nessun bonus applicato.</p>
-                        )}
-                    </Card.Body>
-                </Card>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h2>Dettagli del Giocatore: {player.name}</h2>
+                    <Card className="my-4">
+                        <Card.Header>
+                            <h5>Valore: {player.value}</h5>
+                        </Card.Header>
+                        <Card.Body>
+                            <h5 className='mb-2'>Bonus Applicati:</h5>
+                            {player.bonusesApplied && player.bonusesApplied.length > 0 ? (
+                                <ListGroup className='mb-3'>
+                                    {player.bonusesApplied.map((bonus, index) => (
+                                        <ListGroup.Item key={index}>
+                                            <strong>{bonus.name}</strong>: {bonus.value} punti
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+
+                            ) : (
+                                <p>Nessun bonus applicato.</p>
+                            )}
+                            <h5>Punteggio: {player.score}</h5>
+                        </Card.Body>
+                    </Card>
+                </Col>
             </Row>
-        </Container>
+        </Container >
 
     );
 };

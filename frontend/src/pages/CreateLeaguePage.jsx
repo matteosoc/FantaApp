@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { createLeague } from '../data/fetch'; // Funzione per creare la lega
 import { useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import LeftArrow from '../components/LeftArrow';
 
 
 const CreateLeaguePage = () => {
@@ -45,65 +46,66 @@ const CreateLeaguePage = () => {
 
     return (
         <Container>
-            <Card className="my-3">
-                <Card.Header>Crea una nuova Lega</Card.Header>
-                <Card.Body>
-                    <Form>
-                        <Form.Group controlId="formleagueName">
-                            <Form.Label>Nome Lega</Form.Label>
-                            <Form.Control
-                                name="name"
-                                type="text"
-                                placeholder="Inserisci nome lega"
-                                value={leagueFormValue.name}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h2 className="mb-4">Crea una nuova Lega</h2>
+                            <Form>
+                                <Form.Group className="mb-3" controlId="formleagueName">
+                                    <Form.Label>Nome Lega</Form.Label>
+                                    <Form.Control
+                                        name="name"
+                                        type="text"
+                                        placeholder="Inserisci nome lega"
+                                        value={leagueFormValue.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId="formpassword">
-                            <Form.Label>Password Lega</Form.Label>
-                            <Form.Control
-                                name="password"
-                                type="password"
-                                placeholder="Inserisci una password"
-                                value={leagueFormValue.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId="formpassword">
+                                    <Form.Label>Password Lega</Form.Label>
+                                    <Form.Control
+                                        name="password"
+                                        type="password"
+                                        placeholder="Inserisci una password"
+                                        value={leagueFormValue.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
 
-                        {/* Numero di partecipanti */}
-                        <Form.Group controlId="formNumberOfParticipants">
-                            <Form.Label>Numero di Partecipanti</Form.Label>
-                            <Form.Control
-                                type="number"
-                                name="numberOfParticipants"
-                                placeholder="Inserisci il numero di partecipanti"
-                                value={leagueFormValue.numberOfParticipants}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
+                                {/* Numero di partecipanti */}
+                                <Form.Group className="mb-3" controlId="formNumberOfParticipants">
+                                    <Form.Label>Numero di Partecipanti</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="numberOfParticipants"
+                                        placeholder="Inserisci il numero di partecipanti"
+                                        value={leagueFormValue.numberOfParticipants}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
 
-                        {/* Budget per creare la squadra */}
-                        <Form.Group controlId="budget">
-                            <Form.Label>Budget</Form.Label>
-                            <Form.Control
-                                type="number"
-                                name="budget"
-                                placeholder="Inserisci il budget per creare la squadra"
-                                value={leagueFormValue.budget}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Button onClick={handleSubmit} variant="primary">
-                            Crea Lega
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+                                {/* Budget per creare la squadra */}
+                                <Form.Group className="mb-3" controlId="budget">
+                                    <Form.Label>Budget</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="budget"
+                                        placeholder="Inserisci il budget per creare la squadra"
+                                        value={leagueFormValue.budget}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Button onClick={handleSubmit} variant="primary">
+                                    Crea Lega
+                                </Button>
+                            </Form>
+                </Col>
+            </Row>
         </Container>
     );
 };

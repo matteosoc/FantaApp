@@ -24,9 +24,9 @@ export default function DashboardRouter() {
 
     // Controllo del ruolo
     if (userInfo.roles.includes("admin")) {
-        return <div><p>Admin</p><AdminDashboard /></div>;
+        return <AdminDashboard />;
     } else if (userInfo.roles.includes("teamOwner")) {
-        return <div><p>Team</p><TeamOwnerDashboard /></div>;
+        return <TeamOwnerDashboard />;
     } else {
         return <div>Ruolo non autorizzato</div>;
     }

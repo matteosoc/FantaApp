@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useState } from "react";
 
+import '../App.css';
 
 
 
@@ -20,11 +21,18 @@ function Header() {
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
-                <Navbar.Brand as={Link} to="/">FantaApp</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">
+                    <h4>FantaApp</h4>
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        {token && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
+                        {token &&
+                            <Nav.Link as={Link} to="/dashboard">
+                                <Button variant="none">
+                                    Dashboard
+                                </Button>
+                            </Nav.Link>}
                     </Nav>
                     <Nav>
                         <Nav.Link>
@@ -38,9 +46,12 @@ function Header() {
                             </Button>
                         </Nav.Link>
                         {token &&
-                            <Button className='m-0' variant="primary" onClick={handleLogout}>
-                                Logout
-                            </Button>}
+                            <Nav.Link>
+                                <Button variant="primary" onClick={handleLogout}>
+                                    Logout
+                                </Button>
+                            </Nav.Link>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

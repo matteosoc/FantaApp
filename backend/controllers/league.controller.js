@@ -26,7 +26,7 @@ export const getLeague = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const league = await League.findById(id).populate('admin players bonusMalus')  // Popolare le risorse collegate
+        const league = await League.findById(id).populate('admin players bonusMalus teams')  // Popolare le risorse collegate
 
         if (!league) throw new Error({ message: "league not found" });
 
@@ -164,7 +164,7 @@ export const getLeaguesByAdmin = async (req, res) => {
         console.log(userId)
 
         // Trova tutte le leghe dove l'utente è l'admin
-        const leagues = await League.find({ admin: userId });
+        const leagues = await League.find({ admin: userId }).populate("teams");
 
         // Ritorna le leghe trovate
         res.status(200).json(leagues);

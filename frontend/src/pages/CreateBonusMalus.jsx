@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { postBonusMalus, postPlayer } from "../data/fetch"; // Funzione che fa la POST dei bonus e malus
+import { postBonusMalus } from "../data/fetch"; // Funzione che fa la POST dei bonus e malus
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import LeftArrow from '../components/LeftArrow';
+
 
 const CreateBonusMalus = () => {
     const { leagueId } = useParams(); // Otteniamo il leagueId dai parametri dell'URL
-    const { token, userInfo } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
 
     const [allBonusMalus, setAllBonusMalus] = useState([{ name: "", value: 0, league: leagueId }]);
     const [error, setError] = useState(null);
@@ -17,10 +20,9 @@ const CreateBonusMalus = () => {
         const newBonusMalus = [...allBonusMalus];
         newBonusMalus[index][e.target.name] = e.target.value;
         setAllBonusMalus(newBonusMalus);
-        console.log(newBonusMalus);
     };
 
-    // Aggiunge un nuovo giocatore alla lista
+    // Aggiunge un nuovo bonus/malus alla lista
     const addNewBonusMalus = () => {
         setAllBonusMalus([...allBonusMalus, { name: "", value: 0, league: leagueId }]);
     };
@@ -30,10 +32,7 @@ const CreateBonusMalus = () => {
         e.preventDefault();
 
         try {
-            // Invio dei giocatori uno per uno
             for (const oneBonusMalus of allBonusMalus) {
-                console.log("handle sumbit bonus/malus:" + oneBonusMalus)
-
                 const response = await postBonusMalus(token, oneBonusMalus);
 
                 if (response.error) {
@@ -42,48 +41,59 @@ const CreateBonusMalus = () => {
                 }
             }
 
-            // Redirect or success message after creation
             if (window.confirm('Bonus/Malus creati, torna alla dashboard')) {
-                // console.log(leagueId);
-                // Una volta terminata l'aggiunta dei giocatori, reindirizza alla pagina per inserire i bonus/malus
                 navigate(`/dashboard`);
-            };
+            }
 
         } catch (error) {
-            console.log(error)
-            setError("Errore durante l'invio dei giocatori");
+            setError("Errore durante l'invio dei bonus/malus");
         }
     };
 
     return (
-        <div>
-            <h1>Inserisci Bonus e Malus per la Lega: {leagueId}</h1>
-            <form>
-                {allBonusMalus.map((bonusMalus, index) => (
-                    <div key={index}>
-                        <input
-                            type="text"
-                            name="name"
-                            value={bonusMalus.name}
-                            placeholder="Nome Bonus/Malus"
-                            onChange={(e) => handleBonusMalusChange(index, e)}
-                        />
-                        <input
-                            type="number"
-                            name="value"
-                            value={bonusMalus.value}
-                            placeholder="Valore"
-                            onChange={(e) => handleBonusMalusChange(index, e)}
-                        />
-                    </div>
-                ))}
-                <button type="button" onClick={addNewBonusMalus}>
-                    Aggiungi un altro bonus/malus
-                </button>
-                <button onClick={handleSubmit}>Salva la lega</button>
-            </form>
-            {error && <p>{error}</p>}
-        </div>
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h1 className="mb-4">Inserisci Bonus e Malus per la Lega: {leagueId}</h1>
+                    <Form onSubmit={handleSubmit}>
+                        {allBonusMalus.map((bonusMalus, index) => (
+                            <Row key={index} className="mb-3">
+                                <Form.Group className="mb-2" controlId={`bonusMalusName-${index}`}>
+                                    <Form.Label>Nome Bonus/Malus</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="name"
+                                        value={bonusMalus.name}
+                                        placeholder="Nome Bonus/Malus"
+                                        onChange={(e) => handleBonusMalusChange(index, e)}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId={`bonusMalusValue-${index}`}>
+                                    <Form.Label>Valore</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="value"
+                                        value={bonusMalus.value}
+                                        placeholder="Valore"
+                                        onChange={(e) => handleBonusMalusChange(index, e)}
+                                        required
+                                    />
+                                </Form.Group>
+                            </Row>
+                        ))}
+                        <Button variant="secondary" type="button" onClick={addNewBonusMalus} className="me-2">
+                            Aggiungi un altro bonus/malus
+                        </Button>
+                        <Button variant="primary" type="submit">
+                            Salva la lega
+                        </Button>
+                    </Form>
+                    {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

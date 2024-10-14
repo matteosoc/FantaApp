@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { joinLeague } from '../data/fetch';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import LeftArrow from '../components/LeftArrow';
+
 
 
 
@@ -48,34 +50,39 @@ const JoinLeagueForm = () => {
     };
 
     return (
-        <div>
-            <h3>Iscriviti a una Lega</h3>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Nome Lega</Form.Label>
-                    <Form.Control
-                        name="name"
-                        type="text"
-                        value={leagueForm.name}
-                        onChange={handleChange}
-                        placeholder="Inserisci il nome della lega"
-                    />
-                </Form.Group>
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h3>Iscriviti a una Lega</h3>
+                    <Form>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nome Lega</Form.Label>
+                            <Form.Control
+                                name="name"
+                                type="text"
+                                value={leagueForm.name}
+                                onChange={handleChange}
+                                placeholder="Inserisci il nome della lega"
+                            />
+                        </Form.Group>
 
-                <Form.Group>
-                    <Form.Label>Password Lega</Form.Label>
-                    <Form.Control
-                        name="password"
-                        type="password"
-                        value={leagueForm.password}
-                        onChange={handleChange}
-                        placeholder="Inserisci la password della lega"
-                    />
-                </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Password Lega</Form.Label>
+                            <Form.Control
+                                name="password"
+                                type="password"
+                                value={leagueForm.password}
+                                onChange={handleChange}
+                                placeholder="Inserisci la password della lega"
+                            />
+                        </Form.Group>
 
-                <Button onClick={handleSubmit} variant="primary">Iscriviti</Button>
-            </Form>
-        </div>
+                        <Button onClick={handleSubmit} variant="primary">Iscriviti</Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container >
     );
 };
 

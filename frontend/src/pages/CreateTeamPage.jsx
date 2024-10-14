@@ -2,7 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { getLeagueDetails, createTeam } from '../data/fetch';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ListGroup } from 'react-bootstrap';
+import LeftArrow from '../components/LeftArrow';
+import AddButton from '../components/buttons/AddButton';
+import RemoveButton from '../components/buttons/RemoveButton';
 
 const CreateTeamPage = () => {
     const { leagueId } = useParams();  // Recupera leagueId dall'URL
@@ -27,13 +30,10 @@ const CreateTeamPage = () => {
 
     // Funzione per gestire la selezione dei giocatori
     const handlePlayerSelect = (player) => {
-        // Controlla se il giocatore è già stato selezionato
         if (selectedPlayers.some(p => p._id === player._id)) {
-            // Se il giocatore è già selezionato, rimuovilo
             setSelectedPlayers(selectedPlayers.filter(p => p._id !== player._id));
             setRemainingBudget(remainingBudget + player.value); // Aggiungi il valore al budget
         } else {
-            // Se il giocatore non è stato selezionato, aggiungilo
             if (remainingBudget >= player.value) {
                 setSelectedPlayers([...selectedPlayers, player]);
                 setRemainingBudget(remainingBudget - player.value); // Sottrai il valore dal budget
@@ -52,64 +52,74 @@ const CreateTeamPage = () => {
 
         const newTeam = {
             name: teamName,
-            players: selectedPlayers.map(p => p._id), // Solo gli id dei giocatori
+            players: selectedPlayers.map(p => p._id),
             budget: remainingBudget
         };
-
-        console.log("prima di await createTeam")
-
-        console.log("teamName", newTeam)
-        console.log("leagueId", leagueId)
-        console.log("token", token)
 
         try {
             await createTeam(leagueId, newTeam, token);
             alert('Squadra creata con successo!');
-            navigate(`/teams/${leagueId}`); // Naviga alla pagina della squadra
+            navigate(`/dashboard`);
         } catch (error) {
             console.error('Errore nella creazione della squadra:', error);
         }
     };
 
     return (
-        <div>
-            <h2>Crea la tua squadra</h2>
-            {league && (
-                <div>
-                    <p>Budget disponibile: {remainingBudget} €</p>
-                    <Form.Group>
-                        <Form.Label>Nome Squadra</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={teamName}
-                            onChange={(e) => setTeamName(e.target.value)}
-                            placeholder="Inserisci il nome della tua squadra"
-                        />
-                    </Form.Group>
-                    
-                    <div>
-                        <h3>Seleziona Giocatori</h3>
-                        <div className="player-list">
-                            {league.players.map(player => (
-                                <Card key={player._id} className={`player-card ${selectedPlayers.includes(player) ? 'selected' : ''}`}>
-                                    <Card.Body>
-                                        <Card.Title>{player.name}</Card.Title>
-                                        <Card.Text>Valore: {player.value} €</Card.Text>
-                                        <Button variant="primary" onClick={() => handlePlayerSelect(player)}>
-                                            {selectedPlayers.includes(player) ? 'Rimuovi' : 'Aggiungi'}
-                                        </Button>
-                                    </Card.Body>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    <h2>Crea la tua squadra</h2>
+                    {league && (
+                        <div>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Nome Squadra</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={teamName}
+                                    onChange={(e) => setTeamName(e.target.value)}
+                                    placeholder="Inserisci il nome della tua squadra"
+                                />
+                            </Form.Group>
 
-                    <Button onClick={handleSubmit} disabled={selectedPlayers.length === 0} variant="success">
-                        Crea Squadra
-                    </Button>
-                </div>
-            )}
-        </div>
+                            <div>
+                                <h3>Seleziona Giocatori</h3>
+                                <p>Budget disponibile: {remainingBudget} €</p>
+                                <Card className="mb-4">
+                                    <Card.Header>Giocatori disponibili</Card.Header>
+                                    <ListGroup variant="flush">
+                                        {league.players.map(player => (
+                                            <ListGroup.Item
+                                                key={player._id}
+                                                className={`d-flex justify-content-between align-items-center ${selectedPlayers.includes(player) ? 'bg-success text-white' : ''}`}
+                                                onClick={() => handlePlayerSelect(player)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                <div>
+                                                    <strong>{player.name}</strong> 
+                                                    <span className="ms-2">Valore: {player.value} €</span>
+                                                </div>
+                                                <button
+                                                    variant={selectedPlayers.includes(player) ? 'danger' : 'primary'}
+                                                    size="sm"
+                                                >
+                                                    {selectedPlayers.includes(player) ? <RemoveButton /> : <AddButton />}
+                                                </button>
+                                            </ListGroup.Item>
+                                        ))}
+                                    </ListGroup>
+                                </Card>
+                            </div>
+
+                            <Button onClick={handleSubmit} disabled={selectedPlayers.length === 0} variant="success">
+                                Crea Squadra
+                            </Button>
+                        </div>
+                    )}
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

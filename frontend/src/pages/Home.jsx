@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
 import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
 import { Button, Container, Row, Col } from "react-bootstrap";
 
-
+import '../App.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,9 +29,9 @@ const Home = () => {
         <Row>
           <Col md={8}>
             <h1>Benvenuto/a su FantaApp</h1>
-            <p>Effettua il login o registrati per partecipare al gioco</p>
+            <p>Effettua il login o registrati per creare la tua FantaApp.</p>
             <div className="mt-5">
-              <Button className="btn-primary me-3" onClick={() => navigate('/login')}>
+              <Button className="btn-primary me-3 custom-button" onClick={() => navigate('/login')}>
                 Login
               </Button>
               <Button className="btn-secondary" onClick={() => navigate('/register')}>

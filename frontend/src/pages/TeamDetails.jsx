@@ -4,6 +4,11 @@ import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Table, ListGroup, Button } from 'react-bootstrap';
 import { getTeamDetails, getLeagueLeaderboard } from '../data/fetch'; // Funzioni per recuperare i dati
 import { useNavigate } from 'react-router-dom';
+import LeftArrow from '../components/LeftArrow';
+import PlayerDetailsList from '../components/PlayerDetailsList';
+import LeagueLeaderboard from '../components/LeagueLeaderboard';
+
+
 
 
 const TeamDetails = () => {
@@ -57,75 +62,26 @@ const TeamDetails = () => {
 
     return (
         <Container>
-            {/* Pulsante per tornare indietro */}
-            <Button variant="primary" onClick={() => navigate(-1)} className="mt-3">
-                Torna indietro
-            </Button>
-            <Row>
-                {/* Dettagli della squadra */}
-                <Col md={8}>
+            <Row className="justify-content-md-center">
+                <Col md={6}>
+                    <LeftArrow />
+                    {/* Dettagli della squadra */}
+                    <h3>Dettagli Squadra: {teamDetails.name}</h3>
                     <Card className="mb-4">
                         <Card.Header>
-                            <h3>Dettagli Squadra: {teamDetails.name}</h3>
-                            <p>Risultato: {totalScore()} punti</p>
+                            Risultato: {totalScore()} punti
                         </Card.Header>
                         <Card.Body>
-                            <h5>Giocatori e Punteggi</h5>
-                            <Table striped bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th>Giocatore</th>
-                                        <th>Punteggio</th>
-                                        <th>Bonus/Malus</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {teamDetails.players.map((player, index) => (
-                                        <tr key={index}>
-                                            <td>{player.name}</td>
-                                            <td>{player.score}</td>
-                                            <td>
-                                                {player.bonusesApplied.map((bonus, idx) => (
-                                                    <div key={idx}>
-                                                        {bonus.name}: {bonus.value}
-                                                    </div>
-                                                ))}
-                                            </td>
-                                            <td>
-                                                <Button
-                                                    onClick={() => navigate(`/players/${player._id}`)}
-                                                >
-                                                    Vedi giocatore
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                            <PlayerDetailsList players={teamDetails.players} />
                         </Card.Body>
                     </Card>
-                </Col>
 
-                {/* Classifica della lega */}
-                <Col md={4}>
-                    <Card className="mb-4">
-                        <Card.Header>
-                            <h5>Classifica della Lega</h5>
-                        </Card.Header>
-                        <Card.Body>
-                            <ListGroup variant="flush">
-                                {leagueLeaderboard.map((team, index) => (
-                                    <ListGroup.Item key={index}>
-                                        {index + 1}. {team.teamName} - {team.totalScore} punti
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
+                    {/* Classifica della lega */}
+                    <h3>Classifica della Lega</h3>
+                    <LeagueLeaderboard leaderboard={leagueLeaderboard} />
                 </Col>
             </Row>
-        </Container>
+        </Container >
     );
 };
 

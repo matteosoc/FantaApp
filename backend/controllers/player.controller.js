@@ -8,7 +8,7 @@ export const getPlayer = async (req, res) => {
     try {
         const id = req.params.id
 
-        const player = await Player.findById(req.params.id);
+        const player = await Player.findById(req.params.id).populate('bonusesApplied')
 
         if (!player) return res.status(404).json({ error: 'Player not found' });
 

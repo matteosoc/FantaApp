@@ -24,10 +24,10 @@ const Home = () => {
   }, [])
 
   return (
-    <Container className='mt-5'>
+    <Container className='pt-5'>
       {!token &&
-        <Row>
-          <Col md={8}>
+        <Row className="justify-content-md-center">
+          <Col md={6}>
             <h1>Benvenuto/a su FantaApp</h1>
             <p>Effettua il login o registrati per creare la tua FantaApp.</p>
             <div className="mt-5">
@@ -42,8 +42,8 @@ const Home = () => {
         </Row>
       }
       {token &&
-        <Row>
-          <Col md={8}>
+        <Row className="justify-content-md-center">
+          <Col md={6}>
           <h1>Bentornato su FantaApp</h1>
           <div className="mt-5">
             <button className="btn btn-primary me-3" onClick={() => navigate('/dashboard')}>

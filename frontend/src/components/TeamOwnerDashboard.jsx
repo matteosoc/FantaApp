@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { getMyTeams } from '../data/fetch';
 import Stack from 'react-bootstrap/Stack';
+import SpinnerComponent from '../components/spinner/Spinner'
+
 
 
 const TeamOwnerDashboard = () => {
@@ -12,13 +14,6 @@ const TeamOwnerDashboard = () => {
     const [loading, setLoading] = useState(true); // Stato per il caricamento
     const navigate = useNavigate();
     const [teams, setTeams] = useState([]);
-
-
-
-
-    // const [players, setPlayers] = useState([]);
-    // const [budget, setBudget] = useState(100); // Budget iniziale
-    // const [isJoined, setIsJoined] = useState(false); // Flag per verificare se l'utente è iscritto alla lega
 
     // Effettua il fetch delle leghe in cui è iscritto il teamOwner
     useEffect(() => {
@@ -35,6 +30,10 @@ const TeamOwnerDashboard = () => {
         };
         loadTeams();
     }, [token]);
+
+    if (loading) {
+        return <SpinnerComponent />;
+    }
 
     return (
         <Container >

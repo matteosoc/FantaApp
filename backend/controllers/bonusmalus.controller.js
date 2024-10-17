@@ -4,6 +4,7 @@ import League from '../models/league.js';
 // mostra un bonus o malus
 export const getBonusMalus = async (req, res) => {
     try {
+        console.log("inizio getBonusMalus")
         const id = req.params.id
         
         const bonusmalus = await BonusMalus.findById(id);

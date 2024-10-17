@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Spinner, Alert, ListGroup, Col, Container, Row } from 'react-bootstrap';
+import { Card, Spinner, Alert, ListGroup, Col, Container, Row, Button, Modal, Stack } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
-import { getPlayer } from '../data/fetch'; // Funzioni per recuperare i dati
+import { getPlayer, deletePlayer } from '../data/fetch'; // Funzioni per recuperare i dati
 import { useNavigate } from 'react-router-dom';
 import LeftArrow from '../components/LeftArrow';
+import SpinnerComponent from '../components/spinner/Spinner'
+
 
 
 const PlayerDetails = () => {
@@ -16,6 +18,8 @@ const PlayerDetails = () => {
     const [player, setPlayer] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false); // Stato per il modal
+
 
     useEffect(() => {
         // Funzione per recuperare i dettagli del giocatore
@@ -34,14 +38,15 @@ const PlayerDetails = () => {
         fetchPlayerDetails();
     }, [playerId]);
 
+    const calculateTotalScore = () => {
+        if (player && player.bonusesApplied) {
+            return player.bonusesApplied.reduce((total, bonus) => total + bonus.value, 0);
+        }
+        return 0;
+    };
+
     if (loading) {
-        return (
-            <div className="d-flex justify-content-center">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Caricamento in corso...</span>
-                </Spinner>
-            </div>
-        );
+        return <SpinnerComponent />;
     }
 
     if (error) {
@@ -60,23 +65,32 @@ const PlayerDetails = () => {
                     <h2>Dettagli del Giocatore: {player.name}</h2>
                     <Card className="my-4">
                         <Card.Header>
-                            <h5>Valore: {player.value}</h5>
+                            Valore: {player.value}
                         </Card.Header>
                         <Card.Body>
-                            <h5 className='mb-2'>Bonus Applicati:</h5>
+                            <h5 className='mb-2'>Bonus Applicati</h5>
                             {player.bonusesApplied && player.bonusesApplied.length > 0 ? (
-                                <ListGroup className='mb-3'>
+                                <ListGroup className='mb-3' variant="flush">
                                     {player.bonusesApplied.map((bonus, index) => (
                                         <ListGroup.Item key={index}>
-                                            <strong>{bonus.name}</strong>: {bonus.value} punti
+                                            <Stack direction="horizontal" gap={3}>
+                                                <div>{index + 1}. {bonus.name}</div>
+                                                <div className='ms-auto'>{bonus.value} punti</div>
+                                            </Stack>
                                         </ListGroup.Item>
                                     ))}
                                 </ListGroup>
-
                             ) : (
                                 <p>Nessun bonus applicato.</p>
                             )}
-                            <h5>Punteggio: {player.score}</h5>
+                            <ListGroup>
+                                <ListGroup.Item>
+                                    <Stack direction="horizontal" gap={3}>
+                                        <div><strong>Punteggio totale</strong></div>
+                                        <div className='ms-auto'><strong>{calculateTotalScore()} punti</strong></div>
+                                    </Stack>
+                                </ListGroup.Item>
+                            </ListGroup>
                         </Card.Body>
                     </Card>
                 </Col>

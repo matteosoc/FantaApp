@@ -1,6 +1,5 @@
 import League from '../models/league.js';
 import User from '../models/user.js';
-import mongoose from 'mongoose';
 import Team from '../models/team.js';
 import Player from '../models/player.js';
 
@@ -93,13 +92,13 @@ export const updateLeague = async (req, res) => {
 export const deleteLeague = async (req, res) => {
     try {
         const deletedLeague = await League.findByIdAndDelete(req.params.id);
+
         if (!deletedLeague) return res.status(404).json({ error: 'League not found' });
 
         // rimuove l'id della lega dall'admin
         await User.findByIdAndUpdate(deletedLeague.admin, { $pull: { leagues: deletedLeague._id } });
-
-
-        res.json({ message: 'League deleted successfully' });
+        
+        res.json({ message: 'Lega cancellata' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

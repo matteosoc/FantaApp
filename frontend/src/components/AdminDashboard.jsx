@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import Stack from 'react-bootstrap/Stack';
+import SpinnerComponent from '../components/spinner/Spinner'
 
 
 
@@ -31,7 +32,7 @@ const AdminDashboard = () => {
   }, [token]);
 
   if (loading) {
-    return <div>Caricamento leghe...</div>; // Spinner o messaggio di caricamento
+    return <SpinnerComponent />;
   }
 
   return (
@@ -53,15 +54,15 @@ const AdminDashboard = () => {
                 leagues.map((league) => (
                   <ListGroup.Item key={league._id}>
                     <Stack direction="horizontal" gap={3}>
-                    <div>{league.name}</div>
-                    <Button
-                      variant="primary"
-                      className="ml-2 ms-auto"
-                      size="sm"
-                      onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
-                    >
-                      Gestisci
-                    </Button>
+                      <div>{league.name}</div>
+                      <Button
+                        variant="primary"
+                        className="ml-2 ms-auto"
+                        size="sm"
+                        onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
+                      >
+                        Gestisci
+                      </Button>
                     </Stack>
                   </ListGroup.Item>
                 ))

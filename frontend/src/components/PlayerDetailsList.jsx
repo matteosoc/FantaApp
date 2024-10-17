@@ -6,7 +6,7 @@ const PlayerDetailsList = ({ players }) => {
     const navigate = useNavigate();
 
     return (
-        <ListGroup variant="flush">
+        <ListGroup className="mb-3" variant="flush">
             {players.map((player, index) => (
                 <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
                     <Stack>

@@ -59,7 +59,7 @@ export const register = async (registerFormValue) => {
 // Funzione per ottenere i dati dell'utente autenticato (me)
 export const me = async (token) => {
     try {
-        console.log("inizio fetch me");
+        // console.log("inizio fetch me");
 
         const res = await fetch(`${BASE_URL}/auth/me`, {
             headers: {
@@ -69,7 +69,7 @@ export const me = async (token) => {
 
         if (res.ok) {
             const data = await res.json();
-            console.log("fine fetch me");
+            // console.log("fine fetch me");
             return data;
         } else {
             const errorData = await res.json();
@@ -84,21 +84,21 @@ export const me = async (token) => {
 // Funzione per ottenere le leghe
 export const getMyLeagues = async (token) => {
     try {
-        console.log("inizio fetch leghe dell'utente");
+        // console.log("inizio fetch leghe dell'utente");
 
         const res = await fetch(`${BASE_URL}/leagues/my-leagues/`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
         });
-        console.log("fine fetch leghe dell'utente");
+        // console.log("fine fetch leghe dell'utente");
 
 
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
 
-            console.log("fine fetch leghe");
+            // console.log("fine fetch leghe");
             return data;
         } else {
             const errorData = await res.json();
@@ -298,8 +298,8 @@ export const getTeamDetails = async (teamId, token) => {
 
     console.log("prima della fetch getTeamDetails")
 
-        console.log("teamdId" + teamId)
-        console.log("token" + token)
+    console.log("teamdId" + teamId)
+    console.log("token" + token)
 
     try {
         const response = await fetch(`${BASE_URL}/teams/my-teams/${teamId}`, {
@@ -462,20 +462,20 @@ export const applyBonusToPlayer = async (playerId, token, bonusId) => {
 
 export const getMyTeams = async (token) => {
     try {
-        console.log("inizio fetch getMyTeams");
+        // console.log("inizio fetch getMyTeams");
 
         const res = await fetch(`${BASE_URL}/teams/my-teams/`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             },
         });
-        console.log("fine fetch leghe dell'utente");
+        // console.log("fine fetch leghe dell'utente");
 
-        console.log("Raw response:", res); // Aggiungi questo per visualizzare la risposta grezza
+        //console.log("Raw response:", res); // Aggiungi questo per visualizzare la risposta grezza
 
         // Controlla se `res` è effettivamente in formato JSON
         const text = await res.text();
-        console.log("Response text:", text); // Log del testo della risposta
+        // console.log("Response text:", text); // Log del testo della risposta
 
         // Prova a fare il parsing del JSON solo se possibile
         const data = JSON.parse(text);
@@ -490,7 +490,7 @@ export const getMyTeams = async (token) => {
         console.log(error)
         return { error: 'Errore nel recupero delle leghe' };
     }
-} 
+}
 
 export const getPlayer = async (playerId, token) => {
     console.log("playerId", playerId)
@@ -505,13 +505,13 @@ export const getPlayer = async (playerId, token) => {
                 "Authorization": `Bearer ${token}`
             },
         });
-        console.log("fine fetch getPlayer");
+        // console.log("fine fetch getPlayer");
 
         // Prova a fare il parsing del JSON solo se possibile
         const data = res.json();
 
         if (res.ok) {
-            console.log(data);
+            // console.log(data);
             return data;
         } else {
             return { error: data.message || 'Errore nel recupero del player' };
@@ -520,4 +520,128 @@ export const getPlayer = async (playerId, token) => {
         console.log(error)
         return { error: 'Errore nel recupero del player' };
     }
+}
+
+// cancella lega
+export const deleteLeague = async (leagueId, token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/leagues/${leagueId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // se stai usando l'autenticazione
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Lega eliminata con successo:', data.message);
+            return data; // Restituisce i dati della risposta
+        } else {
+            const errorData = await response.json();
+            console.error('Errore nella cancellazione della lega:', errorData.message);
+            return { error: errorData.message || 'Errore durante l\'eliminazione della lega' };
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        return { error: 'Errore nella richiesta di eliminazione della lega' };
+    }
+};
+
+// mostra bonus
+export const getBonus = async (bonusId, token) => {
+    try {
+        console.log("inizio fetch getBonusMalus");
+
+        const res = await fetch(`${BASE_URL}/bonus-malus/${bonusId}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+        });
+        console.log("dopo fetch getBonusMalus");
+
+        if (res.ok) {
+            const data = await res.json();
+
+            console.log("fine fetch getBonusMalus ecco i dati: " + data);
+            return data;
+
+        } else {
+            const errorData = await res.json();
+            return { error: errorData.message || 'Errore nel recupero' };
+        }
+
+    } catch (error) {
+        return { error: 'Errore nel recupero delle leghe' };
+    }
+};
+
+// cancella player
+export const deletePlayer = async (playerId, token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/players/${playerId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // se stai usando l'autenticazione
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Player eliminato con successo:', data.message);
+            return data; // Restituisce i dati della risposta
+        } else {
+            const errorData = await response.json();
+            console.error('Errore nella cancellazione della lega:', errorData.message);
+            return { error: errorData.message || 'Errore durante l\'eliminazione della lega' };
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        return { error: 'Errore nella richiesta di eliminazione della lega' };
+    }
+};
+
+// cancella bonus
+export const deleteBonus = async (bonusId, token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/bonus-malus/${bonusId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // se stai usando l'autenticazione
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Bonus eliminato con successo:', data.message);
+            return data; // Restituisce i dati della risposta
+        } else {
+            const errorData = await response.json();
+            console.error('Errore nella cancellazione della lega:', errorData.message);
+            return { error: errorData.message || 'Errore durante l\'eliminazione della lega' };
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        return { error: 'Errore nella richiesta di eliminazione della lega' };
+    }
+};
+
+export const sendEmail = async (email) => {
+    try {
+        const response = await fetch(`${BASE_URL}/invite`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        })
+
+        return response;
+
+    } catch (error) {
+        console.log(error)
+        return { error: 'Errore nella fectch sendEmail' };
+    };
 }

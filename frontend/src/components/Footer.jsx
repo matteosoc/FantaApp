@@ -7,9 +7,9 @@ function Footer() {
         <>
             <Nav className="justify-content-center bg-body-tertiary" fixed="bottom">
                 <Nav.Item>
-                    <p className="text-center pt-4 pb-4">
-                        © Progetto interamente realizzato da Matteo Soccal
-                    </p>
+                    <p className="text-center my-1"><small>
+                        © Progetto realizzato da Matteo Soccal
+                        </small></p>
                 </Nav.Item>
             </Nav>
         </>

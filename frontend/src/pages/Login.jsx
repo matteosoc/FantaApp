@@ -3,6 +3,8 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { login } from '../data/fetch'; // Importa la funzione login da fetch.js
 import { AuthContext } from '../context/AuthContext'; // Context per gestire le autorizzazioni
 import { useNavigate } from "react-router-dom";
+import LeftArrow from '../components/LeftArrow';
+
 
 import '../App.css';
 
@@ -43,6 +45,7 @@ const Login = () => {
     <Container>
       <Row className="justify-content-md-center">
         <Col md={6}>
+          <LeftArrow />
           <h2 className="text-center mb-4">Login</h2>
           {error && <Alert variant="danger">{error}</Alert>}
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { getBonusMalus, applyBonusToPlayer } from '../data/fetch';
+import { getBonusMalus, applyBonusToPlayer, getPlayer } from '../data/fetch';
 import LeftArrow from '../components/LeftArrow';
 import { Row, Col, Form, Button, Container } from 'react-bootstrap';
 
@@ -13,6 +13,8 @@ const ApplyBonusPage = () => {
     const navigate = useNavigate(); // Per navigare a altre pagine
     const [allBonusMalus, setBonuses] = useState([]); // Stato per i bonus/malus
     const [selectedBonus, setSelectedBonus] = useState(''); // Stato per il bonus selezionato
+    const [selectedPlayer, setselectedPlayer] = useState(''); // Stato per il bonus selezionato
+
 
     useEffect(() => {
         if (!leagueId) {
@@ -20,11 +22,16 @@ const ApplyBonusPage = () => {
             return;
         }
 
+        const loadPlayerInfo = async () => {
+            const loadedPlayer = await getPlayer(playerId, token);
+            setselectedPlayer(loadedPlayer);
+        };
+
         const loadBonusMalus = async () => {
             const loadedBonuses = await getBonusMalus(leagueId, token);
             setBonuses(loadedBonuses);
         };
-
+        loadPlayerInfo()
         loadBonusMalus();
     }, [leagueId, token]);
 
@@ -43,14 +50,14 @@ const ApplyBonusPage = () => {
             <Row className="justify-content-md-center mt-4">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2 className="mb-4">Applica Bonus/Malus al Giocatore: {playerId}</h2>
+                    <h2 className="mb-3">Applica Bonus/Malus al Giocatore: {selectedPlayer.name}</h2>
 
-                    <Form>
+                    <Form className="mb-4">
                         <Form.Group controlId="selectBonus">
                             <Form.Label>Seleziona Bonus/Malus:</Form.Label>
-                            <Form.Control 
-                                as="select" 
-                                value={selectedBonus} 
+                            <Form.Control
+                                as="select"
+                                value={selectedBonus}
                                 onChange={(e) => setSelectedBonus(e.target.value)}
                             >
                                 <option value="">-- Seleziona un Bonus/Malus --</option>
@@ -61,16 +68,15 @@ const ApplyBonusPage = () => {
                                 ))}
                             </Form.Control>
                         </Form.Group>
-
-                        <Button 
-                            variant="primary" 
-                            onClick={handleBonusApplication} 
-                            disabled={!selectedBonus} 
-                            className="mt-3 w-100"
-                        >
-                            Applica Bonus/Malus
-                        </Button>
                     </Form>
+                    <Button
+                        variant="primary"
+                        onClick={handleBonusApplication}
+                        disabled={!selectedBonus}
+                        className="mt-3 w-100"
+                    >
+                        Applica Bonus/Malus
+                    </Button>
                 </Col>
             </Row>
         </Container>

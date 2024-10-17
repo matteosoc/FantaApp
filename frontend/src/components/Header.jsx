@@ -5,12 +5,40 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext, useState } from "react";
 
 import '../App.css';
+import { sendEmail } from '../data/fetch';
+import InviteModal from '../components/InviteModal'
 
 
 
 function Header() {
     const { token, setToken } = useContext(AuthContext);
     const navigate = useNavigate()
+    const [showInviteModal, setShowInviteModal] = useState(false);
+
+    const handleInvite = async (email) => {
+        try {
+            // Effettua una chiamata al backend per inviare l'invito
+            const response = await sendEmail(email)
+
+            // Verifica che la risposta abbia un corpo
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Errore nella richiesta:', errorText);
+                alert('Errore durante l\'invio dell\'invito: ' + errorText);
+                return;
+            }
+
+            const data = await response.json();
+            alert('Invito inviato con successo!');
+            
+        } catch (error) {
+            console.log(error)
+            alert('Si è verificato un errore durante l\'invio dell\'invito.');
+        } finally {
+            setShowInviteModal(false);
+        }
+    };
+
 
     const handleLogout = () => {
         setToken(null)
@@ -36,18 +64,23 @@ function Header() {
                     </Nav>
                     <Nav>
                         <Nav.Link>
-                            <Button variant="outline-secondary">
+                            <Button variant="outline-dark" onClick={() => setShowInviteModal(true)}>
                                 Invita un amico
                             </Button>
+                            <InviteModal
+                                show={showInviteModal}
+                                handleClose={() => setShowInviteModal(false)}
+                                handleInvite={handleInvite}
+                            />
                         </Nav.Link>
                         <Nav.Link as={Link} to="/help">
-                            <Button variant="link">
+                            <Button variant="none">
                                 Help
                             </Button>
                         </Nav.Link>
                         {token &&
                             <Nav.Link>
-                                <Button variant="primary" onClick={handleLogout}>
+                                <Button variant="dark" onClick={handleLogout}>
                                     Logout
                                 </Button>
                             </Nav.Link>

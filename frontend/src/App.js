@@ -23,6 +23,7 @@ import CreateTeamPage from './pages/CreateTeamPage.jsx';
 import TeamDetails from './pages/TeamDetails.jsx';
 import PlayerDetails from './pages/PlayerDetails.jsx';
 import Help from './pages/Help.jsx'
+import BonusDetails from './pages/BonusDetails.jsx';
 
 
 
@@ -31,7 +32,7 @@ function App() {
     <AuthContextProvider>
       <Router>
         <Header />
-        <Container className='max-height p-5 overflow-y'>
+        <div className='max-height overflow-y py-4'>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -47,8 +48,9 @@ function App() {
             <Route path="/leagues/:leagueId/create-team" element={<CreateTeamPage />} />
             <Route path="/teams/:teamId" element={<TeamDetails />} />
             <Route path="/players/:playerId" element={<PlayerDetails />} />
+            <Route path="/bonus-malus/:bonusId" element={<BonusDetails />} />
           </Routes>
-        </Container >
+        </div >
       </Router>
       <Footer />
     </ AuthContextProvider>

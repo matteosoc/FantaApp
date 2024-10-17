@@ -3,6 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import AdminDashboard from "../components/AdminDashboard";
 import TeamOwnerDashboard from "../components/TeamOwnerDashboard";
 import { Navigate } from "react-router-dom";
+import SpinnerComponent from '../components/spinner/Spinner'
+
 
 export default function DashboardRouter() {
     const { userInfo } = useContext(AuthContext);
@@ -15,7 +17,7 @@ export default function DashboardRouter() {
     }, [userInfo]);
 
     if (loading) {
-        return <div>Caricamento...</div>;  // Mostra un caricamento finché userInfo non è pronto
+        return <SpinnerComponent />;
     }
 
     if (!userInfo) {

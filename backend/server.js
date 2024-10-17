@@ -14,6 +14,8 @@ import userRouter from './routers/user.router.js';
 import teamRouter from './routers/team.router.js';
 import playerRouter from './routers/player.router.js';
 import bonusMalusRouter from './routers/bonusmalus.router.js';
+import emailRouter from './routers/email.router.js';
+
 
 
 const host = process.env.HOST;
@@ -36,8 +38,10 @@ app.use(cors());
 app.use('/api/v1/leagues', leaguesRouter); // rotta per le leghe
 app.use('/api/v1/teams/', teamRouter); // rotta per le squadre
 app.use('/api/v1/players/', playerRouter); // rotta per i giocatori
-app.use('/api/v1/bonus_malus/', bonusMalusRouter); // rotta per i bonus e malus
+app.use('/api/v1/bonus-malus/', bonusMalusRouter); // rotta per i bonus e malus
 app.use('/api/v1/users', userRouter); // rotta per le leghe
+app.use('/api/v1/invite', emailRouter); // rotta per l'invio di email
+
 
 app.use('/api/v1/auth', authenticationRouter); // rotta autenticazione
 

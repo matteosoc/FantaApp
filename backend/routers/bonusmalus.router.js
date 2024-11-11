@@ -2,6 +2,7 @@ import express from "express";
 import * as bonusMalusController from "../controllers/bonusmalus.controller.js";
 import hasRole from "../middlewares/hasRole.js";
 import auth from "../middlewares/auth.js";
+import { uploadCloudinaryIcon } from "../middlewares/uploadCloudinary.js";
 
 
 const bonusMalusRouter = express.Router();
@@ -10,7 +11,7 @@ const bonusMalusRouter = express.Router();
 bonusMalusRouter.get('/:id', auth, hasRole('admin'), bonusMalusController.getBonusMalus);
 
 // crea una nuovo bonus malus
-bonusMalusRouter.post('/', auth, hasRole('admin'), bonusMalusController.postBonusMalus);
+bonusMalusRouter.post('/', auth, hasRole('admin'), uploadCloudinaryIcon.single('icon'), bonusMalusController.postBonusMalus);
 
 // // modifica un bonus malus
 bonusMalusRouter.put('/:id', auth, hasRole('admin'), bonusMalusController.updateBonusMalus);

@@ -2,6 +2,7 @@ import express from 'express';
 import * as teamController from '../controllers/team.controller.js';
 import auth from '../middlewares/auth.js';
 import hasRole from '../middlewares/hasRole.js';
+import { uploadCloudinaryTeamImage } from '../middlewares/uploadCloudinary.js';
 
 const teamRouter = express.Router();
 

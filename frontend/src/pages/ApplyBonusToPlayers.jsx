@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { getBonusMalus, applyBonusToPlayer, getPlayer } from '../data/fetch';
 import LeftArrow from '../components/LeftArrow';
 import { Row, Col, Form, Button, Container } from 'react-bootstrap';
+import PlayerCard from '../components/PlayerCard'
 
 const ApplyBonusPage = () => {
     const { playerId } = useParams(); // Recupera playerId dai parametri URL
@@ -13,7 +14,7 @@ const ApplyBonusPage = () => {
     const navigate = useNavigate(); // Per navigare a altre pagine
     const [allBonusMalus, setBonuses] = useState([]); // Stato per i bonus/malus
     const [selectedBonus, setSelectedBonus] = useState(''); // Stato per il bonus selezionato
-    const [selectedPlayer, setselectedPlayer] = useState(''); // Stato per il bonus selezionato
+    const [player, setPlayer] = useState(''); // Stato per il bonus selezionato
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const ApplyBonusPage = () => {
 
         const loadPlayerInfo = async () => {
             const loadedPlayer = await getPlayer(playerId, token);
-            setselectedPlayer(loadedPlayer);
+            setPlayer(loadedPlayer);
         };
 
         const loadBonusMalus = async () => {
@@ -50,8 +51,8 @@ const ApplyBonusPage = () => {
             <Row className="justify-content-md-center mt-4">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2 className="mb-3">Applica Bonus/Malus al Giocatore: {selectedPlayer.name}</h2>
-
+                    <h5 className="mb-3">Applica Bonus a</h5>
+                    <PlayerCard player={player} />
                     <Form className="mb-4">
                         <Form.Group controlId="selectBonus">
                             <Form.Label>Seleziona Bonus/Malus:</Form.Label>
@@ -70,7 +71,7 @@ const ApplyBonusPage = () => {
                         </Form.Group>
                     </Form>
                     <Button
-                        variant="primary"
+                        variant="dark"
                         onClick={handleBonusApplication}
                         disabled={!selectedBonus}
                         className="mt-3 w-100"

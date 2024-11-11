@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import GoogleStrategy from './config/passport.config.js';
 import passport from 'passport';
+import multer from 'multer';
 
 
 import authenticationRouter from './routers/auth.router.js';
@@ -31,6 +32,7 @@ passport.use("google", GoogleStrategy);
 // installazioni per fare upload immagini npm i multer morgan helmet cors
 app.use(morgan('dev'));
 app.use(helmet());
+
 // postizionato prima della rotte
 app.use(cors());
 

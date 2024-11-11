@@ -67,27 +67,41 @@ const TeamDetails = () => {
                 <Col md={6}>
                     <LeftArrow />
                     {/* Dettagli della squadra */}
-                    <h3 className="mb-3">Dettagli Squadra: {teamDetails.name}</h3>
-                    <Card className="mb-4">
-                        <Card.Header>
-                            Risultato: {totalScore()} punti
-                        </Card.Header>
-                        <Card.Body>
+                    <div className='mb-4'>
+                        <h5>Dettaglio squadra</h5>
+                        <div className='myCard p-3 mb-4'>
+                            <Stack direction="horizontal">
+                                <div>
+                                    <img
+                                        src={teamDetails.teamImage ? teamDetails.teamImage : "/team-default.jpg"}
+                                        className='thumbnail'
+                                    />
+                                </div>
+                                <div className='ps-4'>
+                                    <h1>{teamDetails.name}</h1>
+                                </div>
+                            </Stack>
+                        </div>
+                    </div>
+                    <div className='mb-4'>
+                        <h5>Giocatori</h5>
+                        <div className='myCard p-3'>
                             <PlayerDetailsList players={teamDetails.players} />
                             <ListGroup>
                                 <ListGroup.Item>
                                     <Stack direction="horizontal" gap={3}>
                                         <div><strong>Punteggio totale</strong></div>
                                         <div className="ms-auto"><strong>{totalScore()} punti</strong></div>
-                                        </Stack>
+                                    </Stack>
                                 </ListGroup.Item>
                             </ListGroup>
-                        </Card.Body>
-                    </Card>
-
+                        </div>
+                    </div>
                     {/* Classifica della lega */}
-                    <h3 className="mb-3">Classifica della Lega</h3>
-                    <LeagueLeaderboard leaderboard={leagueLeaderboard} />
+                    <div>
+                        <h5>Classifica della Lega</h5>
+                        <LeagueLeaderboard leaderboard={leagueLeaderboard} />
+                    </div>
                 </Col>
             </Row>
         </Container >

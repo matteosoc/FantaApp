@@ -2,6 +2,7 @@ import League from '../models/league.js';
 import User from '../models/user.js';
 import Team from '../models/team.js';
 import Player from '../models/player.js';
+import 'dotenv/config'
 
 // mostra tutte le leghe
 export const getAllLeagues = async (req, res) => {
@@ -196,7 +197,7 @@ export const getBonusMalusLeague = async (req, res) => {
 
 // crea nuova squadra con controllo budget
 export const createTeamInLeague = async (req, res) => {
-    console.log("inizio createTeamInLeague")
+    // console.log("inizio createTeamInLeague")
     
     const leagueId = req.params.id; 
     console.log("leagueId", leagueId)
@@ -204,6 +205,9 @@ export const createTeamInLeague = async (req, res) => {
     const userId = req.loggedUser._id;
     console.log("userId", userId)
 
+    if (req.file && req.file.path) {
+        var teamImageUrl = req.file.path; // Salva l'URL dell'immagine caricata su Cloudinary
+    }
 
     try {
         // Trova la lega e i giocatori associati
@@ -230,7 +234,7 @@ export const createTeamInLeague = async (req, res) => {
         const newTeamValue = new Team({
             name: req.body.name,
             players: req.body.players,
-            // avatar: avatar,
+            teamImage: teamImageUrl,
             owner: userId,
             league: leagueId
         });

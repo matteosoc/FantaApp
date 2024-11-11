@@ -11,6 +11,7 @@ const bonusmalusSchema = new Schema(
             type: Number,
             required: true
         },
+        icon: { type: String },
         league: { type: Schema.Types.ObjectId, ref: 'League' }
     },
     {

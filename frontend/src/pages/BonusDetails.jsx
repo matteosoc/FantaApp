@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Stack, Spinner, Alert, Card, Col, Container, Row, ListGroup, Modal, Button } from 'react-bootstrap';
+import { Stack, Image, Alert, Card, Col, Container, Row, ListGroup, Modal, Button } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
 import { getBonus, deleteBonus } from '../data/fetch'; // Funzioni per recuperare i dati
 import { useNavigate } from 'react-router-dom';
 import LeftArrow from '../components/LeftArrow';
 import SpinnerComponent from '../components/spinner/Spinner';
+import BonusCard from '../components/BonusCard';
 
 
 
@@ -71,24 +72,8 @@ const BonusDetails = () => {
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2 className="mb-4">Dettagli del Bonus/Malus: {bonus.name}</h2>
-                    <Card className="mb-4">
-                        <ListGroup variant="flush">
-                            <ListGroup.Item>
-                                <Stack direction="horizontal" gap={3}>
-                                    <div>Valore</div>
-                                    <div className='ms-auto'>{bonus.value}</div>
-                                </Stack>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Stack direction="horizontal" gap={3}>
-                                    <div>League</div>
-                                    <div className='ms-auto'>{bonus.league}</div>
-                                </Stack>
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Card>
-                    <Button variant="danger" onClick={() => setShowModal(true)}>
+                    <BonusCard bonus={bonus} />
+                    <Button className='w-100' variant="outline-dark" onClick={() => setShowModal(true)}>
                         Elimina bonus
                     </Button>
 
@@ -101,10 +86,10 @@ const BonusDetails = () => {
                             Sei sicuro di voler eliminare questo bonus? Questa azione non può essere annullata.
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setShowModal(false)}>
+                            <Button variant="dark" onClick={() => setShowModal(false)}>
                                 Annulla
                             </Button>
-                            <Button variant="danger" onClick={confirmDelete}>
+                            <Button variant="light" onClick={confirmDelete}>
                                 Elimina
                             </Button>
                         </Modal.Footer>

@@ -6,6 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import Stack from 'react-bootstrap/Stack';
 import SpinnerComponent from '../components/spinner/Spinner'
+import RightArrow from './RightArrow';
 
 
 
@@ -39,38 +40,51 @@ const AdminDashboard = () => {
     <Container >
       <Row className="justify-content-md-center">
         <Col md={6}>
-          <h1>Admin Dashboard</h1>
+          <div className='mb-3'>
+            <h1>Dashboard</h1>
+          </div>
 
-          {/* Button to navigate to create league page */}
-          <Button as={Link} to="/createLeague" variant="primary" className="my-3">
-            Crea una nuova Lega
-          </Button>
+          {/* Lista delle leghe */}
+          <div>
+            <div className="mb-3">
+              <div className='mb-3'>
+                <Stack direction="horizontal" gap={3}>
+                  <h5 className='mb-0'>Le tue Leghe</h5>
+                  {/* Crea nuova lega */}
+                  <div className="ms-auto">
+                    <Button className='btn-dark' as={Link} to="/createLeague" size="sm">
+                      Crea nuova
+                    </Button>
+                  </div>
+                </Stack>
+              </div>
 
-          {/* List of leagues */}
-          <Card className="my-3">
-            <Card.Header>Le tue Leghe</Card.Header>
-            <ListGroup variant="flush">
-              {leagues.length > 0 ? (
-                leagues.map((league) => (
-                  <ListGroup.Item key={league._id}>
-                    <Stack direction="horizontal" gap={3}>
-                      <div>{league.name}</div>
-                      <Button
-                        variant="primary"
-                        className="ml-2 ms-auto"
-                        size="sm"
-                        onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
-                      >
-                        Gestisci
-                      </Button>
-                    </Stack>
-                  </ListGroup.Item>
-                ))
-              ) : (
-                <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
-              )}
-            </ListGroup>
-          </Card>
+              {/* Lista delle leghe */}
+              <div className='myCard'>
+                <ListGroup variant="flush">
+                  {leagues.length > 0 ? (
+                    leagues.map((league) => (
+                      <ListGroup.Item key={league._id}>
+                        <Stack direction="horizontal" gap={3}>
+                          <div>{league.name}</div>
+                          <button
+                            variant="primary"
+                            className="ms-auto"
+                            size="sm"
+                            onClick={() => navigate(`/leagues/${league._id}`)} // Navigazione alla pagina dei dettagli della lega
+                          >
+                            <RightArrow />
+                          </button>
+                        </Stack>
+                      </ListGroup.Item>
+                    ))
+                  ) : (
+                    <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
+                  )}
+                </ListGroup>
+              </div>
+            </div>
+          </div>
         </Col>
       </ Row>
     </Container>

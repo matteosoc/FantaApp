@@ -3,8 +3,8 @@ import { Card, ListGroup, Stack } from 'react-bootstrap';
 
 const LeagueLeaderboard = ({ leaderboard }) => {
     return (
-        <Card className="mb-4">
-            <Card.Body>
+        <div className="mb-4">
+            <div className='myCard p-3'>
                 <ListGroup variant="flush">
                     {leaderboard.map((team, index) => (
                         <ListGroup.Item key={index}>
@@ -15,8 +15,8 @@ const LeagueLeaderboard = ({ leaderboard }) => {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
-            </Card.Body>
-        </Card>
+            </div>
+        </div>
     );
 };
 

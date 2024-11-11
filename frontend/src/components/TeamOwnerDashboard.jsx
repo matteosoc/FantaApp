@@ -6,6 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getMyTeams } from '../data/fetch';
 import Stack from 'react-bootstrap/Stack';
 import SpinnerComponent from '../components/spinner/Spinner'
+import RightArrow from './RightArrow';
 
 
 
@@ -39,38 +40,53 @@ const TeamOwnerDashboard = () => {
         <Container >
             <Row className="justify-content-md-center">
                 <Col md={6}>
-                    <h1>TeamOwner Dashboard</h1>
+                    <div className='mb-3'>
+                        <h1>Dashboard</h1>
+                    </div>
 
-                    {/* Join a league */}
-                    {<Button as={Link} to="/join-league" variant="primary" className="my-3">
-                        Iscriviti a una lega
-                    </Button>
-                    }
+                    {/* Lista delle leghe */}
+                    <div>
+                        <div className="mb-3">
+                            <div className='mb-3'>
+                                <Stack direction="horizontal" gap={3}>
+                                    <h5 className='mb-0'>Le tue squadre</h5>
+                                    {/* Crea nuova lega */}
+                                    <div className="ms-auto">
+                                        <Button className='btn-dark' as={Link} to="/join-league" size="sm">
+                                            Iscriviti a una lega
+                                        </Button>
+                                    </div>
+                                </Stack>
+                            </div>
 
-                    <Card className="my-3">
-                        <Card.Header>Le tue teams</Card.Header>
-                        <ListGroup variant="flush">
-                            {teams.length > 0 ? (
-                                teams.map((team) => (
-                                    <ListGroup.Item key={team._id}>
-                                        <Stack direction="horizontal" gap={3}>
-                                            <div>{team.name}</div>
-                                            <Button
-                                                variant="primary"
-                                                className="ml-2 ms-auto"
-                                                size="sm"
-                                                onClick={() => navigate(`/teams/${team._id}`)} // Navigazione alla pagina dei dettagli della lega
-                                            >
-                                                Gestisci
-                                            </Button>
-                                        </Stack>
-                                    </ListGroup.Item>
-                                ))
-                            ) : (
-                                <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
-                            )}
-                        </ListGroup>
-                    </Card>
+                            {/* Lista delle leghe */}
+                            <div className='myCard'>
+                                <ListGroup variant="flush">
+                                    {teams.length > 0 ? (
+                                        teams.map((team) => (
+                                            <ListGroup.Item key={team._id}>
+                                                <Stack direction="horizontal" gap={3}>
+                                                    <div>{team.name}</div>
+                                                    <button
+                                                        variant="primary"
+                                                        className="ms-auto"
+                                                        size="sm"
+                                                        onClick={() => navigate(`/teams/${team._id}`)} // Navigazione alla pagina dei dettagli della lega
+                                                    >
+                                                        <RightArrow />
+                                                    </button>
+                                                </Stack>
+                                            </ListGroup.Item>
+                                        ))
+                                    ) : (
+                                        <ListGroup.Item>Nessuna lega trovata.</ListGroup.Item>
+                                    )}
+                                </ListGroup>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                 </Col>
             </ Row>
         </Container>

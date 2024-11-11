@@ -1,6 +1,5 @@
 import Player from '../models/player.js';
 import League from '../models/league.js';
-import Team from '../models/team.js';
 import BonusMalus from '../models/bonusmalus.js';
 
 // mostra un giocatore
@@ -21,7 +20,15 @@ export const getPlayer = async (req, res) => {
 // crea un giocatore
 export const postPlayer = async (req, res) => {
     try {
+        console.log("qui")
+        
         const newPlayer = new Player(req.body);
+        console.log(newPlayer);
+
+        if (req.file && req.file.path) {
+            newPlayer.playerImage = req.file.path; // Salva l'URL dell'immagine caricata su Cloudinary
+        }
+
         await newPlayer.save();
 
         // inserisce l'id della lega
@@ -29,8 +36,8 @@ export const postPlayer = async (req, res) => {
 
         res.status(201).json(newPlayer);
     } catch (error) {
-        console.log(error)
-        res.status(400).json({ error: error.message });
+        console.error("Errore durante il caricamento dell'immagine:", error);
+        res.status(500).json({ message: error.message || "Errore del server" });
     }
 }
 
@@ -70,7 +77,7 @@ export const applyBonusToPlayer = async (req, res) => {
 
         // Trova il bonus/malus
         const bonusMalus = await BonusMalus.findById(bonusId);
-        
+
         if (!bonusMalus) {
             return res.status(404).json({ message: "Bonus/Malus non trovato." });
         }

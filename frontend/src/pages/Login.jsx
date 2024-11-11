@@ -46,11 +46,11 @@ const Login = () => {
       <Row className="justify-content-md-center">
         <Col md={6}>
           <LeftArrow />
-          <h2 className="text-center mb-4">Login</h2>
+          <h2 className="text-center mb-3">Login</h2>
           {error && <Alert variant="danger">{error}</Alert>}
 
           <Form>
-            <Form.Group controlId="formEmail">
+            <Form.Group controlId="formEmail" className='mb-2'>
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -62,7 +62,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formPassword" className="mt-3">
+            <Form.Group controlId="formPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
@@ -74,7 +74,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" onClick={handleLogin} className="mt-4 w-100">
+            <Button variant="dark" onClick={handleLogin} className="mt-4 w-100">
               Login
             </Button>
           </Form>
@@ -82,8 +82,8 @@ const Login = () => {
           <hr />
 
           <Button
-            variant="primary"
-            className="ms-2"
+            variant="light"
+            className="w-100"
             onClick={() => {
               window.location.href = 'http://localhost:5000/api/v1/auth/login-google';
             }}

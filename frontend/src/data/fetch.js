@@ -141,65 +141,45 @@ export const createLeague = async (leagueFormValue, token) => {
 };
 
 // crea giocatore e aggiunge a una lega
-export const postPlayer = async (token, playerForm) => {
+export const postPlayer = async (token, formData) => {
     try {
-        console.log("Dentro fetch AddPlayers")
-
-        console.log(token)
-        console.log(playerForm)
-
-        const res = await fetch(`${BASE_URL}/players/`, {
+        const response = await fetch(`${BASE_URL}/players`, {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`
             },
-            method: 'POST',
-            body: JSON.stringify(playerForm),
+            body: formData, // FormData viene passato direttamente come body
         });
 
-        if (res.ok) {
-            console.log("Res.Ok postPlayer")
-            const responseData = await res.json();
-            return responseData;
-        } else {
-            const errorData = await res.json();
-            return { error: errorData.message || 'Errore nell\'aggiunta dei giocatori o dei bonus/malus' };
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Errore durante l'invio dei dati");
         }
+
+        return await response.json(); // Restituisce i dati di risposta in caso di successo
     } catch (error) {
-        return { error: 'Errore nell\'aggiunta dei giocatori o dei bonus/malus' };
+        return { error: error.message || "Errore di rete" }; // Gestisce eventuali errori
     }
 };
 
-// aggiungi giocatore a una lega
-export const postBonusMalus = async (token, bonusMalusForm) => {
+
+// aggiungi bonus malus a una lega
+export const postBonusMalus = async (token, formData) => {
     try {
-        console.log("Dentro fetch post BonusMalus")
-
-        console.log(token)
-        console.log(bonusMalusForm)
-
-        const res = await fetch(`${BASE_URL}/bonus_malus/`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
+        const response = await fetch(`${BASE_URL}/bonus-malus`, {
             method: 'POST',
-            body: JSON.stringify(bonusMalusForm),
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: formData // Assicurati di non impostare "Content-Type", fetch lo gestirà automaticamente
         });
-
-        if (res.ok) {
-            console.log("Res.Ok post bonus malus")
-            const responseData = await res.json();
-            return responseData;
-        } else {
-            const errorData = await res.json();
-            return { error: errorData.message || 'Errore nell\'aggiunta dei giocatori o dei bonus/malus' };
-        }
+        return await response.json();
     } catch (error) {
-        console.log(error)
-        return { error: 'Errore nell\'aggiunta dei giocatori o dei bonus/malus' };
+        console.error("Errore durante la POST del bonus/malus:", error);
+        return { error: error.message };
     }
 };
+
 
 // Funzione per partecipare a una lega
 export const joinLeague = async (leagueForm, token) => {
@@ -238,20 +218,19 @@ export const joinLeague = async (leagueForm, token) => {
 // Funzione per creare una squadra in una lega
 export const createTeam = async (leagueId, newTeam, token) => {
     try {
-        console.log("inizio fetch creazione squadra");
+        console.log("Inizio fetch creazione squadra");
 
         const res = await fetch(`${BASE_URL}/leagues/${leagueId}/create-team`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            method: 'POST',
-            body: JSON.stringify(newTeam)
+            body: newTeam, // Usa direttamente il FormData senza JSON.stringify
         });
 
         if (res.ok) {
             const data = await res.json();
-            console.log("fine fetch creazione squadra");
+            console.log("Fine fetch creazione squadra");
             return data;
         } else {
             const errorData = await res.json();
@@ -259,6 +238,7 @@ export const createTeam = async (leagueId, newTeam, token) => {
         }
 
     } catch (error) {
+        console.error('Errore nella creazione della squadra:', error);
         return { error: 'Errore nella creazione della squadra' };
     }
 };

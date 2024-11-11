@@ -49,10 +49,10 @@ const CreateLeaguePage = () => {
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2 className="mb-4">Crea una nuova Lega</h2>
+                    <h1 className="mb-4">Crea una nuova Lega</h1>
                             <Form>
-                                <Form.Group className="mb-3" controlId="formleagueName">
-                                    <Form.Label>Nome Lega</Form.Label>
+                                <Form.Group className="mb-2" controlId="formleagueName">
+                                    <Form.Label>Nome</Form.Label>
                                     <Form.Control
                                         name="name"
                                         type="text"
@@ -63,8 +63,8 @@ const CreateLeaguePage = () => {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formpassword">
-                                    <Form.Label>Password Lega</Form.Label>
+                                <Form.Group className="mb-2" controlId="formpassword">
+                                    <Form.Label>Password</Form.Label>
                                     <Form.Control
                                         name="password"
                                         type="password"
@@ -76,7 +76,7 @@ const CreateLeaguePage = () => {
                                 </Form.Group>
 
                                 {/* Numero di partecipanti */}
-                                <Form.Group className="mb-3" controlId="formNumberOfParticipants">
+                                <Form.Group className="mb-2" controlId="formNumberOfParticipants">
                                     <Form.Label>Numero di Partecipanti</Form.Label>
                                     <Form.Control
                                         type="number"
@@ -89,7 +89,7 @@ const CreateLeaguePage = () => {
                                 </Form.Group>
 
                                 {/* Budget per creare la squadra */}
-                                <Form.Group className="mb-3" controlId="budget">
+                                <Form.Group className="mb-4" controlId="budget">
                                     <Form.Label>Budget</Form.Label>
                                     <Form.Control
                                         type="number"
@@ -100,7 +100,7 @@ const CreateLeaguePage = () => {
                                         required
                                     />
                                 </Form.Group>
-                                <Button onClick={handleSubmit} variant="primary">
+                                <Button onClick={handleSubmit} variant="dark" className='w-100'>
                                     Crea Lega
                                 </Button>
                             </Form>

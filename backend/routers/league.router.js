@@ -2,6 +2,7 @@ import express from "express";
 import * as leaguesController from "../controllers/league.controller.js"
 import auth from "../middlewares/auth.js";
 import hasRole from '../middlewares/hasRole.js';
+import { uploadCloudinaryTeamImage } from "../middlewares/uploadCloudinary.js";
 
 
 const leaguesRouter = express.Router();
@@ -34,7 +35,7 @@ leaguesRouter.delete('/:id', auth, hasRole('admin'), leaguesController.deleteLea
 leaguesRouter.post('/join', auth, hasRole('teamOwner'), leaguesController.joinLeague);
 
 // crea la squadra nella lega
-leaguesRouter.post('/:id/create-team', auth, hasRole('teamOwner'), leaguesController.createTeamInLeague);
+leaguesRouter.post('/:id/create-team', auth, hasRole('teamOwner'), uploadCloudinaryTeamImage.single('teamImage'), leaguesController.createTeamInLeague);
 
 
 export default leaguesRouter;

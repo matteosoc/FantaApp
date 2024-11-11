@@ -21,6 +21,11 @@ export const getBonusMalus = async (req, res) => {
 export const postBonusMalus = async (req, res) => {
     try {
         const newBonusMalus = new BonusMalus(req.body);
+        
+        if (req.file && req.file.path) {
+            newBonusMalus.icon = req.file.path; // Salva l'URL dell'immagine caricata su Cloudinary
+        }
+
         await newBonusMalus.save();
 
         // inserisce l'id del bonusmalus nella lega

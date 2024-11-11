@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Spinner, Alert, ListGroup, Col, Container, Row, Button, Modal, Stack } from 'react-bootstrap';
+import { Card, Alert, ListGroup, Col, Container, Row, Image, Stack } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
 import { getPlayer, deletePlayer } from '../data/fetch'; // Funzioni per recuperare i dati
 import { useNavigate } from 'react-router-dom';
 import LeftArrow from '../components/LeftArrow';
 import SpinnerComponent from '../components/spinner/Spinner'
+import PlayerCard from '../components/PlayerCard';
 
 
 
@@ -62,18 +63,16 @@ const PlayerDetails = () => {
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2>Dettagli del Giocatore: {player.name}</h2>
-                    <Card className="my-4">
-                        <Card.Header>
-                            Valore: {player.value}
-                        </Card.Header>
-                        <Card.Body>
-                            <h5 className='mb-2'>Bonus Applicati</h5>
+                    <div>
+                        <h5>Dettaglio del Giocatore</h5>
+                        <PlayerCard player={player} />
+                        <h5 className='mb-2'>Bonus Applicati</h5>
+                        <div className='myCard p-3'>
                             {player.bonusesApplied && player.bonusesApplied.length > 0 ? (
-                                <ListGroup className='mb-3' variant="flush">
+                                <ListGroup className='mb-2' variant="flush">
                                     {player.bonusesApplied.map((bonus, index) => (
                                         <ListGroup.Item key={index}>
-                                            <Stack direction="horizontal" gap={3}>
+                                            <Stack direction="horizontal">
                                                 <div>{index + 1}. {bonus.name}</div>
                                                 <div className='ms-auto'>{bonus.value} punti</div>
                                             </Stack>
@@ -81,7 +80,9 @@ const PlayerDetails = () => {
                                     ))}
                                 </ListGroup>
                             ) : (
-                                <p>Nessun bonus applicato.</p>
+                                <div>
+                                    <p>Nessun bonus applicato.</p>
+                                </div>
                             )}
                             <ListGroup>
                                 <ListGroup.Item>
@@ -91,8 +92,8 @@ const PlayerDetails = () => {
                                     </Stack>
                                 </ListGroup.Item>
                             </ListGroup>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
                 </Col>
             </Row>
         </Container >

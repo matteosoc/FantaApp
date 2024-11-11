@@ -10,11 +10,12 @@ const PlayerDetailsList = ({ players }) => {
             {players.map((player, index) => (
                 <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
                     <Stack>
+                        <div>{player.playerImage}</div>
                         <div><strong>{player.name}</strong></div>
                         <div className="text-muted">Punteggio: {player.score}</div>
                     </Stack>
                     <Button
-                        variant="primary"
+                        variant="dark"
                         size="sm"
                         onClick={() => navigate(`/players/${player._id}`)}
                     >

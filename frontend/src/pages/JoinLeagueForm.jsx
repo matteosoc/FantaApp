@@ -54,7 +54,7 @@ const JoinLeagueForm = () => {
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <LeftArrow />
-                    <h3>Iscriviti a una Lega</h3>
+                    <h3 className="mb-3">Iscriviti a una Lega</h3>
                     <Form>
                         <Form.Group className="mb-3">
                             <Form.Label>Nome Lega</Form.Label>
@@ -67,7 +67,7 @@ const JoinLeagueForm = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-4">
                             <Form.Label>Password Lega</Form.Label>
                             <Form.Control
                                 name="password"
@@ -78,7 +78,7 @@ const JoinLeagueForm = () => {
                             />
                         </Form.Group>
 
-                        <Button onClick={handleSubmit} variant="primary">Iscriviti</Button>
+                        <Button className='w-100' onClick={handleSubmit} variant="dark">Iscriviti</Button>
                     </Form>
                 </Col>
             </Row>

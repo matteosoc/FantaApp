@@ -24,17 +24,23 @@ const Home = () => {
   }, [])
 
   return (
-    <Container className='pt-5'>
+    <Container className='p-5'>
       {!token &&
-        <Row className="justify-content-md-center">
-          <Col md={6}>
-            <h1>Benvenuto/a su FantaApp</h1>
-            <p>Effettua il login o registrati per creare la tua FantaApp.</p>
-            <div className="mt-5">
-              <Button className="btn-primary me-3 custom-button" onClick={() => navigate('/login')}>
+        <Row>
+          <Col className='center'>
+            <div className='triangle'></div>
+            <div className='starburst'></div>
+            <div className='square'></div>
+            <div className='circle'></div>
+            <div>
+              <h1 className="mb-2">Benvenuto/a su FantaApp</h1>
+              <p>Effettua il login o registrati per creare la tua FantaApp.</p>
+            </div>
+            <div>
+              <Button variant="dark" className="me-3" onClick={() => navigate('/login')}>
                 Login
               </Button>
-              <Button className="btn-secondary" onClick={() => navigate('/register')}>
+              <Button variant="light" onClick={() => navigate('/register')}>
                 Registrati
               </Button>
             </div>
@@ -42,14 +48,18 @@ const Home = () => {
         </Row>
       }
       {token &&
-        <Row className="justify-content-md-center">
-          <Col md={6}>
-          <h1>Bentornato su FantaApp</h1>
-          <div className="mt-5">
-            <button className="btn btn-primary me-3" onClick={() => navigate('/dashboard')}>
-              Vai alla dashboard
-            </button>
-          </div>
+        <Row>
+          <Col className='center'>
+            <div className='triangle'></div>
+            <div className='starburst'></div>
+            <div className='square'></div>
+            <div className='circle'></div>
+            <h1>Bentornato/a su FantaApp</h1>
+            <div className="mt-5">
+              <Button variant="dark" onClick={() => navigate('/dashboard')}>
+                Vai alla dashboard
+              </Button>
+            </div>
           </Col>
         </Row>}
     </ Container>

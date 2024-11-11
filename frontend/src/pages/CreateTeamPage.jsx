@@ -16,17 +16,31 @@ const CreateTeamPage = () => {
     const [selectedPlayers, setSelectedPlayers] = useState([]); // Giocatori selezionati
     const [remainingBudget, setRemainingBudget] = useState(0); // Budget rimanente
     const [teamName, setTeamName] = useState(''); // Nome del team
+    const [image, setImage] = useState([null]); // Stato per le immagini
+
 
     // Funzione per caricare i dati della lega
     useEffect(() => {
         const loadLeagueData = async () => {
             const leagueData = await getLeagueDetails(leagueId, token);
+
+            if (!leagueData) {
+                alert('Lega non trovata.');
+                navigate('/dashboard');
+                return;
+            }
+
             setLeague(leagueData);
-            setRemainingBudget(leagueData.budget); // Imposta il budget iniziale della lega
+            setRemainingBudget(leagueData.budget || 0);  // Imposta il budget iniziale della lega
         };
 
         loadLeagueData();
     }, [leagueId, token]);
+
+    // Gestisce il caricamento dell'immagine
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
 
     // Funzione per gestire la selezione dei giocatori
     const handlePlayerSelect = (player) => {
@@ -45,35 +59,41 @@ const CreateTeamPage = () => {
 
     // Funzione per inviare il team creato
     const handleSubmit = async () => {
-        if (!teamName) {
-            alert('Inserisci un nome per la tua squadra!');
-            return;
-        }
-
-        const newTeam = {
-            name: teamName,
-            players: selectedPlayers.map(p => p._id),
-            budget: remainingBudget
-        };
-
         try {
+            if (!teamName) {
+                alert('Inserisci un nome per la tua squadra!');
+                return;
+            }
+
+            const newTeam = new FormData()
+            newTeam.append("teamImage", image)
+            newTeam.append("name", teamName);
+            selectedPlayers.forEach(player => newTeam.append("players", player._id));
+            newTeam.append("budget", remainingBudget);
+
+            console.log(newTeam)
+
             await createTeam(leagueId, newTeam, token);
+
             alert('Squadra creata con successo!');
+
             navigate(`/dashboard`);
         } catch (error) {
-            console.error('Errore nella creazione della squadra:', error);
+            console.log('Errore nella creazione della squadra:', error);
+            alert('Si è verificato un errore durante la creazione della squadra. Riprova più tardi.');
         }
     };
+
 
     return (
         <Container>
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <LeftArrow />
-                    <h2>Crea la tua squadra</h2>
+                    <h2 className="mb-3">Crea la tua squadra</h2>
                     {league && (
                         <div>
-                            <Form.Group className="mb-3">
+                            <Form.Group className="mb-2">
                                 <Form.Label>Nome Squadra</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -83,25 +103,33 @@ const CreateTeamPage = () => {
                                 />
                             </Form.Group>
 
+                            <Form.Group className="mb-4" controlId={`teamImage`}>
+                                <Form.Label>Immagine giocatore</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    name="teamImage"
+                                    onChange={handleImageChange}
+                                />
+                            </Form.Group>
+
                             <div>
-                                <h3>Seleziona Giocatori</h3>
+                                <h3 className="mb-2">Seleziona Giocatori</h3>
                                 <p>Budget disponibile: {remainingBudget} €</p>
-                                <Card className="mb-4">
-                                    <Card.Header>Giocatori disponibili</Card.Header>
+                                <div className="myCard p-3 mb-4">
                                     <ListGroup variant="flush">
                                         {league.players.map(player => (
                                             <ListGroup.Item
                                                 key={player._id}
-                                                className={`d-flex justify-content-between align-items-center ${selectedPlayers.includes(player) ? 'bg-success text-white' : ''}`}
+                                                className={`d-flex justify-content-between align-items-center ${selectedPlayers.includes(player) ? 'bg-dark text-white' : ''}`}
                                                 onClick={() => handlePlayerSelect(player)}
                                                 style={{ cursor: 'pointer' }}
                                             >
                                                 <div>
-                                                    <strong>{player.name}</strong> 
+                                                    <strong>{player.name}</strong>
                                                     <span className="ms-2">Valore: {player.value} €</span>
                                                 </div>
                                                 <button
-                                                    variant={selectedPlayers.includes(player) ? 'danger' : 'primary'}
+                                                    variant={selectedPlayers.includes(player) ? 'danger' : 'dark'}
                                                     size="sm"
                                                 >
                                                     {selectedPlayers.includes(player) ? <RemoveButton /> : <AddButton />}
@@ -109,10 +137,10 @@ const CreateTeamPage = () => {
                                             </ListGroup.Item>
                                         ))}
                                     </ListGroup>
-                                </Card>
+                                </div>
                             </div>
 
-                            <Button onClick={handleSubmit} disabled={selectedPlayers.length === 0} variant="success">
+                            <Button className='w-100' onClick={handleSubmit} disabled={selectedPlayers.length === 0} variant="dark">
                                 Crea Squadra
                             </Button>
                         </div>

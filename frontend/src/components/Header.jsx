@@ -64,7 +64,7 @@ function Header() {
                     </Nav>
                     <Nav>
                         <Nav.Link>
-                            <Button variant="outline-dark" onClick={() => setShowInviteModal(true)}>
+                            <Button variant="white" onClick={() => setShowInviteModal(true)}>
                                 Invita un amico
                             </Button>
                             <InviteModal
@@ -80,7 +80,7 @@ function Header() {
                         </Nav.Link>
                         {token &&
                             <Nav.Link>
-                                <Button variant="dark" onClick={handleLogout}>
+                                <Button variant="light" onClick={handleLogout}>
                                     Logout
                                 </Button>
                             </Nav.Link>

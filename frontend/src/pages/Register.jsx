@@ -39,9 +39,9 @@ export default function Register() {
       <Row className="justify-content-md-center">
         <Col md={6}>
           <LeftArrow />
-          <h2 className="text-center">Registrati</h2>
+          <h2 className="text-center mb-2">Registrati</h2>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="name">
+            <Form.Group className="mb-2" controlId="name">
               <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
@@ -53,7 +53,7 @@ export default function Register() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="surname">
+            <Form.Group className="mb-2" controlId="surname">
               <Form.Label>Cognome</Form.Label>
               <Form.Control
                 type="text"
@@ -67,7 +67,7 @@ export default function Register() {
 
 
 
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group className="mb-2" controlId="email">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -79,7 +79,7 @@ export default function Register() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
+            <Form.Group className="mb-2" controlId="password">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
@@ -91,7 +91,7 @@ export default function Register() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="role">
+            <Form.Group className="mb-4" controlId="role">
               <Form.Label>Ruolo</Form.Label>
               <Form.Select
                 name="roles"
@@ -110,7 +110,7 @@ export default function Register() {
               </Alert>
             )}
 
-            <Button variant="primary" className="w-100" onClick={handleSubmit}>
+            <Button variant="dark" className="w-100" onClick={handleSubmit}>
               Registrati
             </Button>
           </Form>

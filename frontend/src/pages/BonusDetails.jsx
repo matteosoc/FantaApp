@@ -77,7 +77,7 @@ const BonusDetails = () => {
                         Elimina bonus
                     </Button>
 
-                    {/* Modal di conferma per l'eliminazione della lega */}
+                    {/* Modal di conferma per l'eliminazione del bonus */}
                     <Modal show={showModal} onHide={() => setShowModal(false)}>
                         <Modal.Header closeButton>
                             <Modal.Title>Conferma Eliminazione</Modal.Title>

@@ -1,6 +1,8 @@
 import Player from '../models/player.js';
 import League from '../models/league.js';
 import BonusMalus from '../models/bonusmalus.js';
+import Team from '../models/team.js';
+
 
 // mostra un giocatore
 export const getPlayer = async (req, res) => {
@@ -50,8 +52,11 @@ export const deletePlayer = async (req, res) => {
 
         if (!deletedPlayer) return res.status(404).json({ error: 'Player not found' });
 
-        // rimuove l'id della lega dall'admin
+        // rimuove l'id del giocatore dalla lega
         await League.findByIdAndUpdate(deletedPlayer.league, { $pull: { players: deletedPlayer._id } });
+
+        // rimuove l'id del giocatore dalla squadra
+        await Team.findByIdAndUpdate(deletedPlayer.league, { $pull: { players: deletedPlayer._id } });
 
         res.json({ message: 'Player deleted successfully' });
     } catch (error) {

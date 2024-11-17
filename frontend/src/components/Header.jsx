@@ -47,7 +47,7 @@ function Header() {
     }
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+        <Navbar collapseOnSelect expand="lg" bg="dark" data-bs-theme="dark">
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <h4>FantaApp</h4>
@@ -64,7 +64,7 @@ function Header() {
                     </Nav>
                     <Nav>
                         <Nav.Link>
-                            <Button variant="white" onClick={() => setShowInviteModal(true)}>
+                            <Button variant="light" onClick={() => setShowInviteModal(true)}>
                                 Invita un amico
                             </Button>
                             <InviteModal
@@ -80,7 +80,7 @@ function Header() {
                         </Nav.Link>
                         {token &&
                             <Nav.Link>
-                                <Button variant="light" onClick={handleLogout}>
+                                <Button variant="none" onClick={handleLogout}>
                                     Logout
                                 </Button>
                             </Nav.Link>

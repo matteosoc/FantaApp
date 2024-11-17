@@ -2,6 +2,7 @@ import League from '../models/league.js';
 import User from '../models/user.js';
 import Team from '../models/team.js';
 import Player from '../models/player.js';
+import BonusMalus from '../models/bonusmalus.js'
 import 'dotenv/config'
 
 // mostra tutte le leghe
@@ -96,10 +97,20 @@ export const deleteLeague = async (req, res) => {
 
         if (!deletedLeague) return res.status(404).json({ error: 'League not found' });
 
-        // rimuove l'id della lega dall'admin
+        // Rimuovi l'ID della lega dall'admin
         await User.findByIdAndUpdate(deletedLeague.admin, { $pull: { leagues: deletedLeague._id } });
-        
-        res.json({ message: 'Lega cancellata' });
+
+        // Elimina tutte le squadre associate alla lega
+        await Team.deleteMany({ league: deletedLeague._id });
+
+        // Elimina tutti i giocatori associati alla lega
+        await Player.deleteMany({ league: deletedLeague._id });
+
+        // Elimina tutti i bonus/malus associati alla lega
+        await BonusMalus.deleteMany({ league: deletedLeague._id });
+
+
+        res.json({ message: 'Lega e risorse associate sono state cancellate' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -198,8 +209,8 @@ export const getBonusMalusLeague = async (req, res) => {
 // crea nuova squadra con controllo budget
 export const createTeamInLeague = async (req, res) => {
     // console.log("inizio createTeamInLeague")
-    
-    const leagueId = req.params.id; 
+
+    const leagueId = req.params.id;
     console.log("leagueId", leagueId)
 
     const userId = req.loggedUser._id;

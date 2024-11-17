@@ -1,5 +1,6 @@
 import BonusMalus from '../models/bonusmalus.js';
 import League from '../models/league.js';
+import Player from '../models/player.js';
 
 // mostra un bonus o malus
 export const getBonusMalus = async (req, res) => {
@@ -52,9 +53,14 @@ export const deleteBonusMalus = async ( req, res) => {
         const deletedBonusMalus = await BonusMalus.findByIdAndDelete(req.params.id);
         if (!deletedBonusMalus) return res.status(404).json({ error: 'BonusMalus not found' });
 
-        // rimuove l'id della lega dall'admin
+        // rimuove l'id del bonus dalla lega
         await League.findByIdAndUpdate(deletedBonusMalus.league, { $pull: { bonusMalus: deletedBonusMalus._id } });
 
+        // rimuove l'id del bonus dai giocatori
+        await Player.updateMany(
+            { bonusesApplied: deletedBonusMalus._id },
+            { $pull: { bonusesApplied: deletedBonusMalus._id } }
+        );
 
         res.json({ message: 'BonusMalus deleted successfully' });
     } catch (error) {

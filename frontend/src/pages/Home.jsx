@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
 import { Button, Container, Row, Col } from "react-bootstrap";
+import TypewriterEffect from '../components/TypewriterEffect';
+
 
 import '../App.css';
 
@@ -28,12 +30,10 @@ const Home = () => {
       {!token &&
         <Row>
           <Col className='center'>
-            <div className='triangle'></div>
-            <div className='starburst'></div>
-            <div className='square'></div>
-            <div className='circle'></div>
+            <div className='mb-3'>
+              <TypewriterEffect />
+            </div>
             <div>
-              <h1 className="mb-2">Benvenuto/a su FantaApp</h1>
               <p>Effettua il login o registrati per creare la tua FantaApp.</p>
             </div>
             <div>
@@ -50,10 +50,6 @@ const Home = () => {
       {token &&
         <Row>
           <Col className='center'>
-            <div className='triangle'></div>
-            <div className='starburst'></div>
-            <div className='square'></div>
-            <div className='circle'></div>
             <h1>Bentornato/a su FantaApp</h1>
             <div className="mt-5">
               <Button variant="dark" onClick={() => navigate('/dashboard')}>

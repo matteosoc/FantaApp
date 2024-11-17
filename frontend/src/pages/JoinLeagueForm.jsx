@@ -25,8 +25,6 @@ const JoinLeagueForm = () => {
         console.log(leagueForm)
     };
 
-
-
     const handleSubmit = async () => {
         console.log(leagueForm)
 

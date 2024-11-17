@@ -30,7 +30,13 @@ p {
 }
 
 .max-height {
-  height: calc(100vh - 70px - 32px);
+  height: calc(100vh - 70px - 48px);
+}
+
+@media screen and (max-width: 990px) {
+  .max-height {
+    height: calc(100vh - 52px - 48px);
+  }
 }
 
 .overflow-y {
@@ -69,6 +75,14 @@ input[type="reset"] {
   border-radius: 100%;
 }
 
+.thumbnail-small {
+  width: 50px;
+  height: 50px;
+  max-width: 100px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
 .myCard {
   border-radius: 5px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 6px 25px 0px;
@@ -94,57 +108,24 @@ nav>div>button {
   padding: 0 !important;
 }
 
-/* blob */
-body {
-  height: 100vh;
-  background: white;
+/* scritta dinamica */
 
+#typewriter-effect {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-.triangle {
-  width: 300px; /* adjust to control the size */
-  aspect-ratio: 1;
-  clip-path: polygon(84.98% 85.72%,1.57% 62.43%,63.45% 1.84%);
-  background-color: black;
-  position: absolute;
-  left: 70%;
-  top: 50%;
-  z-index: -1;
+.cursor {
+  display: inline-block;
+  width: 2px;
+  animation: blink 0.7s infinite;
 }
 
-.starburst {
-  background-color: black;
-  position: absolute;
-  width: 150px;
-  /* adjust to control the size */
-  aspect-ratio: 1;
-  clip-path: polygon(100% 50%, 66.57% 53.78%, 95.05% 71.69%, 63.29% 60.6%, 81.17% 89.09%, 57.38% 65.32%, 61.13% 98.75%, 50% 67%, 38.87% 98.75%, 42.62% 65.32%, 18.83% 89.09%, 36.71% 60.6%, 4.95% 71.69%, 33.43% 53.78%, 0% 50%, 33.43% 46.22%, 4.95% 28.31%, 36.71% 39.4%, 18.83% 10.91%, 42.62% 34.68%, 38.87% 1.25%, 50% 33%, 61.13% 1.25%, 57.38% 34.68%, 81.17% 10.91%, 63.29% 39.4%, 95.05% 28.31%, 66.57% 46.22%);
-  left: 15%;
-  top: 10%;
-  z-index: -1;
-  /* adjust to control the size */
-}
-
-.square {
-  background-color: black;
-  position: absolute;
-  left: -5%;
-  top: 70%;
-  z-index: -1;
-  width: 200px; /* adjust to control the size */
-  aspect-ratio: 1;
-  clip-path: polygon(91.35% 78.1%,21.9% 91.35%,8.65% 21.9%,78.1% 8.65%);
-}
-
-.circle {   
-  height: 130px;
-  background: blue; 
-  background-color: black;
-  position: absolute;
-  left: 78%;
-  top: 5%;
-  z-index: -1;
-  width: 250px; /* adjust to control the size */
-  aspect-ratio: 1;
-  clip-path: polygon(91.35% 78.1%,21.9% 91.35%,8.65% 21.9%,78.1% 8.65%);
+@keyframes blink {
+  0%, 100% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
 }

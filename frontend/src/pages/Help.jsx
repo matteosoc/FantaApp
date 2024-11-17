@@ -10,14 +10,11 @@ const Help = () => {
                 <Col md={8}>
                     <h2 className="text-center mb-4">Guida al Gioco</h2>
 
-                    <Card className="mb-4">
-                        <Card.Header className="bg-primary text-white">
+                    <div className="mb-3 p-4 myCard">
+                        <div className='mb-2'>
                             <h5>Come Partecipare al Gioco</h5>
-                        </Card.Header>
-                        <Card.Body>
-                            <p>
-                                Per partecipare al gioco, segui i seguenti passaggi:
-                            </p>
+                        </div>
+                        <div>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>1. Registrati e fai il login.</ListGroup.Item>
                                 <ListGroup.Item>2. Crea o unisciti a una lega.</ListGroup.Item>
@@ -25,14 +22,14 @@ const Help = () => {
                                 <ListGroup.Item>4. Osserva i punteggi e la classifica della tua lega.</ListGroup.Item>
                                 <ListGroup.Item>5. Alla fine di ogni giornata, verifica i bonus/malus assegnati.</ListGroup.Item>
                             </ListGroup>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
 
-                    <Card className="mb-4">
-                        <Card.Header className="bg-primary text-white">
+                    <div className="mb-4 p-4 myCard">
+                        <div className='mb-3'>
                             <h5>Creazione della Lega</h5>
-                        </Card.Header>
-                        <Card.Body>
+                        </div>
+                        <div>
                             <Accordion>
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Requisiti per Creare una Lega</Accordion.Header>
@@ -58,14 +55,14 @@ const Help = () => {
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Accordion>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
 
-                    <Card className="mb-4">
-                        <Card.Header className="bg-primary text-white">
+                    <div className="mb-4 p-4 myCard">
+                        <div className='mb-3'>
                             <h5>Creazione della Squadra</h5>
-                        </Card.Header>
-                        <Card.Body>
+                        </div>
+                        <div>
                             <p>
                                 Ogni giocatore ha un valore che incide sul budget della tua squadra. 
                                 Rispetta il budget totale e seleziona i giocatori che ritieni più competitivi.
@@ -73,14 +70,14 @@ const Help = () => {
                             <p>
                                 Una volta formata la tua squadra, potrai vedere i risultati alla fine di ogni giornata.
                             </p>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
 
-                    <Card className="mb-4">
-                        <Card.Header className="bg-primary text-white">
+                    <div className="mb-4 p-4 myCard">
+                        <div className='mb-3'>
                             <h5>Domande Frequenti</h5>
-                        </Card.Header>
-                        <Card.Body>
+                        </div>
+                        <div>
                             <Accordion>
                                 <Accordion.Item eventKey="2">
                                     <Accordion.Header>Come faccio a iscrivermi a una lega?</Accordion.Header>
@@ -104,8 +101,8 @@ const Help = () => {
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Accordion>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
                 </Col>
             </Row>
         </Container>

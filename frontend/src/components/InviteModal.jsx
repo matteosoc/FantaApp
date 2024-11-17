@@ -16,7 +16,7 @@ const InviteModal = ({ show, handleClose, handleInvite }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formFriendEmail">
+          <Form.Group controlId="formFriendEmail" className="mb-3">
             <Form.Label>Email del tuo amico</Form.Label>
             <Form.Control
               type="email"
@@ -26,8 +26,8 @@ const InviteModal = ({ show, handleClose, handleInvite }) => {
               required
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="mt-3" onClick={handleSubmit}>
-            Invia Invito
+          <Button variant="dark" type="submit" onClick={handleSubmit}>
+            Invia
           </Button>
         </Form>
       </Modal.Body>

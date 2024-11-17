@@ -75,5 +75,5 @@ export const me = (req, res) => {
 export const callbackGoogle = async (req, res) => {
     console.log(req)
     
-    res.redirect(`http://localhost:3000/?token=${req.user.jwtToken}`)
+    res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.jwtToken}`)
 }

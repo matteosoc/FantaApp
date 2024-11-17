@@ -57,7 +57,7 @@ const CreateBonusMalus = () => {
                 }
             }
 
-            if (window.confirm('Bonus/Malus creati, torna alla dashboard')) {
+            if (window.confirm('Bonus e Malus creati, torna alla dashboard')) {
                 navigate(`/dashboard`);
             }
 

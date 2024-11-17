@@ -34,7 +34,7 @@ const CreateLeaguePage = () => {
             const newLeague = await createLeague(leagueFormValue, token);
 
             // Redirect or success message after creation
-            if (window.confirm('Lega creata, passa alla creazione dei players e bonusmalus')) {
+            if (window.confirm('Lega creata, passa alla creazione dei giocatori e dei bonus / malus')) {
                 console.log(newLeague._id);
                 navigate(`/create-players/${newLeague._id}`)
             };

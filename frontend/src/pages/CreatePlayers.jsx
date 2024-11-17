@@ -57,7 +57,7 @@ const CreatePlayersPage = () => {
                 }
             }
 
-            if (window.confirm('Giocatori creati, passa alla creazione dei bonusmalus')) {
+            if (window.confirm('Giocatori creati, passa alla creazione dei bonus e dei malus')) {
                 navigate(`/create-bonus-malus/${leagueId}`);
             }
 
@@ -77,7 +77,8 @@ const CreatePlayersPage = () => {
                         {players.map((player, index) => (
                             <Row key={index} className="mb-4">
                                 <Form.Group className="mb-2" controlId={`playerName-${index}`}>
-                                    <Form.Label>Nome giocatore {index + 1}</Form.Label>
+                                    <p className="mb-0"><strong className="mb-0">{index + 1}.</strong></p>
+                                    <Form.Label>Nome giocatore</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="name"

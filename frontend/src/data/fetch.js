@@ -1,5 +1,7 @@
+import 'config'
+
 // Base URL dell'API
-const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = `${process.env.REACT_APP_API_URL}/api/v1`;
 
 // Funzione per il login
 export const login = async (loginFormValue) => {

@@ -85,7 +85,7 @@ const Login = () => {
             variant="light"
             className="w-100"
             onClick={() => {
-              window.location.href = 'http://localhost:5000/api/v1/auth/login-google';
+              window.location.href = `${process.env.REACT_APP_API_URL}/api/v1/auth/login-google`;
             }}
           >
             Login con Google

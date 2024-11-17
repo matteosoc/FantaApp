@@ -2,8 +2,6 @@
 
 **FantaApp** è un'applicazione web per la gestione di leghe di fantacalcio, che permette agli utenti di creare leghe, formare squadre e competere con gli amici. L'app include funzionalità di autenticazione, gestione delle leghe e squadre, e un sistema di assegnazione di bonus e malus per personalizzare le performance dei giocatori.
 
-![Screenshot](assets/screenshot.png)
-
 ## 🌐 Demo
 
 👉 [Prova la demo qui!](https://fanta-app-pied.vercel.app/)

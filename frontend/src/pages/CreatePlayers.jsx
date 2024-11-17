@@ -78,7 +78,7 @@ const CreatePlayersPage = () => {
                             <Row key={index} className="mb-4">
                                 <Form.Group className="mb-2" controlId={`playerName-${index}`}>
                                     <p className="mb-0"><strong className="mb-0">{index + 1}.</strong></p>
-                                    <Form.Label>Nome giocatore</Form.Label>
+                                    <Form.Label>Nome</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="name"
@@ -108,6 +108,7 @@ const CreatePlayersPage = () => {
                                         onChange={(e) => handleImageChange(index, e)}
                                     />
                                 </Form.Group>
+                                <hr></hr>
                             </Row>
                         ))}
                         <Button variant="light" type="button" onClick={addNewPlayer} className="mb-2 w-100">

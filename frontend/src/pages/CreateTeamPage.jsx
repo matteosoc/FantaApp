@@ -94,7 +94,7 @@ const CreateTeamPage = () => {
                     {league && (
                         <div>
                             <Form.Group className="mb-2">
-                                <Form.Label>Nome Squadra</Form.Label>
+                                <Form.Label>Nome</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={teamName}
@@ -104,7 +104,7 @@ const CreateTeamPage = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-4" controlId={`teamImage`}>
-                                <Form.Label>Immagine giocatore</Form.Label>
+                                <Form.Label>Logo</Form.Label>
                                 <Form.Control
                                     type="file"
                                     name="teamImage"

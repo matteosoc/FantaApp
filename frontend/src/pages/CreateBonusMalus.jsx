@@ -76,7 +76,8 @@ const CreateBonusMalus = () => {
                         {allBonusMalus.map((bonusMalus, index) => (
                             <Row key={index} className="mb-2">
                                 <Form.Group className="mb-2" controlId={`bonusMalusName-${index}`}>
-                                    <Form.Label>{index+1}. Nome Bonus/Malus</Form.Label>
+                                    <p className="mb-0"><strong className="mb-0">{index + 1}.</strong></p>
+                                    <Form.Label>Nome</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="name"
@@ -98,7 +99,7 @@ const CreateBonusMalus = () => {
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-4" controlId={`bonusMalusImage-${index}`}>
-                                    <Form.Label>Immagine Bonus/Malus</Form.Label>
+                                    <Form.Label>Immagine</Form.Label>
                                     <Form.Control
                                         name="icon"
                                         type="file"

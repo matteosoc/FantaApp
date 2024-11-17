@@ -8,7 +8,7 @@ const PlayerDetailsList = ({ players }) => {
     return (
         <ListGroup className="mb-3" variant="flush">
             {players.map((player, index) => (
-                <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center p-0">
+                <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center p-2">
                     <div>
                         <img
                             src={player.playerImage ? player.playerImage : "/player-default.jpg"}
@@ -16,8 +16,8 @@ const PlayerDetailsList = ({ players }) => {
                         />
                     </div>
                     <div>
-                    <div><strong>{player.name}</strong></div>
-                    <div className="text-muted">Punteggio: {player.score}</div>
+                        <div><strong>{player.name}</strong></div>
+                        <div className="text-muted">Punteggio: {player.score}</div>
                     </div>
                     <Button
                         className='ms-auto'

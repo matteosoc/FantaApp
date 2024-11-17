@@ -1,5 +1,3 @@
-import 'config'
-
 // Base URL dell'API
 const BASE_URL = `${process.env.REACT_APP_API_URL}/api/v1`;
 

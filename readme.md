@@ -8,6 +8,10 @@
 
 👉 [Prova la demo qui!](https://fanta-app-pied.vercel.app/)
 
+## 🎥 Scopri FantaApp in Azione!
+
+👉 [Guarda il video su loom](https://www.loom.com/share/0c3f01c5a68a47f9bfc94d12bd9c2ff9?sid=783106d3-f210-4e99-a1e6-389d9301dbfe)
+
 ## ✨ Caratteristiche
 
 - 🔐 **Autenticazione Utenti**: Registrazione e login tramite credenziali manuali o con Google, gestiti tramite JSON Web Tokens (JWT).
